@@ -1,9 +1,3 @@
-# HAT: Hardware-Aware Transformers for Efficient Natural Language Processing
-# Hanrui Wang, Zhanghao Wu, Zhijian Liu, Han Cai, Ligeng Zhu, Chuang Gan and Song Han
-# The 58th Annual Meeting of the Association for Computational Linguistics (ACL), 2020.
-# Paper: https://arxiv.org/abs/2005.14187
-# Project page: https://hanruiwang.me/project_pages/hat/
-
 import random
 import argparse
 import numpy as np
@@ -13,7 +7,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-
+# source code - https://github.com/huawei-noah/Pretrained-Language-Model/blob/master/AutoTinyBERT/latency_predictor.py
+# paper - https://arxiv.org/abs/2005.14187
 class Net(nn.Module):
     def __init__(self, feature_dim, hidden_dim, hidden_layer_num):
         super(Net, self).__init__()
@@ -36,7 +31,6 @@ class Net(nn.Module):
         x = self.predict(x)
 
         return x
-
 
 class LatencyPredictor(object):
     def __init__(self, feature_norm, lat_norm, ckpt_path, lat_dataset_path='./latency_dataset/lat.tmp', feature_dim=10,
@@ -180,7 +174,6 @@ class LatencyPredictor(object):
         random.shuffle(tmp)
         features_norm_all, lats_all = zip(*tmp)
         self.dataset = {'x': features_norm_all, 'y': lats_all}
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -345,4 +338,3 @@ if __name__ == '__main__':
     # for config in configs:
     #     print(f'Example config: {config}')
     #     print(f'Example latency: {predictor.predict_lat(config)}')
-
