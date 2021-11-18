@@ -2,6 +2,7 @@ import argparse
 import time
 import os
 import random
+import json
 
 import torch
 import numpy as np
@@ -30,6 +31,7 @@ def arch_cpu_time(model, arch, args):
                                                               args.batch_size)
 
         start = time.time()
+        
         with torch.no_grad():
             model(input_ids, arch, input_masks, kd=not args.mlm)
 
@@ -54,17 +56,18 @@ if __name__ == "__main__":
     parser.add_argument("--seed", default=0, type=int)
 
     # Search space for sub_bart architecture
-    parser.add_argument('--layer_num_space', nargs='+', type=int, default=[1, 8])
-    parser.add_argument('--hidden_size_space', nargs='+', type=int, default=[128, 768])
-    parser.add_argument('--qkv_size_space', nargs='+', type=int, default=[180, 768])
+    parser.add_argument('--layer_num_space', nargs='+', type=int, default=[1, 5])
+    parser.add_argument('--hidden_size_space', nargs='+', type=int, default=[128, 564])
+    parser.add_argument('--qkv_size_space', nargs='+', type=int, default=[180, 528])
     parser.add_argument('--head_num_space', nargs='+', type=int, default=[1, 12])
-    parser.add_argument('--intermediate_size_space', nargs='+', type=int, default=[128, 3072])
+    parser.add_argument('--intermediate_size_space', nargs='+', type=int, default=[128, 1024])
     parser.add_argument('--mlm', action='store_true')
 
-    parser.add_argument('--infer_cnt', type=int, default=10)
+    parser.add_argument('--infer_cnt', type=int, default=5)
 
     args = parser.parse_args()
     
+    """
     config = BertConfig.from_pretrained(os.path.join(args.bert_model, 'config.json'))
     model = SuperTinyBertForPreTraining.from_scratch(args.bert_model, config)
     tokenizer = BertTokenizer.from_pretrained(args.bert_model, do_lower_case=True)
@@ -72,6 +75,7 @@ if __name__ == "__main__":
     device = 'cpu'
     model.to(device)
     model.eval()
+    """
 
     torch.set_num_threads(1)
 
@@ -85,9 +89,16 @@ if __name__ == "__main__":
     min_qkv_size, max_qkv_size = args.qkv_size_space
     min_head_size, max_head_size = args.head_num_space
 
-    hidden_step = 16
+    """
+    hidden_step = 12
     ffn_step = 12
     qkv_step = 12
+    head_step = 1
+    """
+
+    hidden_step = 120
+    ffn_step = 120
+    qkv_step = 120
     head_step = 1
 
     number_hidden_step = int((max_hidden_size - min_hidden_size) / hidden_step)
@@ -95,7 +106,7 @@ if __name__ == "__main__":
     number_qkv_step = int((max_qkv_size - min_qkv_size) / qkv_step)
     number_head_step = int((max_head_size - min_head_size) / head_step)
 
-    layer_numbers = args.layer_num_space
+    layer_numbers = list(range(args.layer_num_space[0], args.layer_num_space[1] + 1))
     hidden_sizes = [i * hidden_step + min_hidden_size for i in range(number_hidden_step + 1)]
     ffn_sizes = [i * ffn_step + min_ffn_size for i in range(number_ffn_step + 1)]
     qkv_sizes = [i * qkv_step + min_qkv_size for i in range(number_qkv_step + 1)]
@@ -108,7 +119,31 @@ if __name__ == "__main__":
     config['sample_hidden_size'] = 768
     config['sample_intermediate_sizes'] = [3072] * 12
     config['sample_qkv_sizes'] = [768] * 12
+    config['vocab_size'] =  30522
+
+    # Init write file
+    with open('./latency_dataset/lat.tmp', 'w') as f:
+        pass
+
+    # Instantiate model
+    with open("./tinybert_model/4l/config.json", "w") as f:
+        json.dump(config, f)
+
+    #config = BertConfig.from_dict(config)
+    bert_config = BertConfig.from_pretrained(os.path.join(args.bert_model, 'config.json'))
+
+    model = SuperTinyBertForPreTraining.from_scratch(args.bert_model, bert_config)
+    tokenizer = BertTokenizer.from_pretrained(args.bert_model, do_lower_case=True)
+
+    device = 'cpu'
+    model.to(device)
+    model.eval()
+    
+    # Test BERT-base time
+
+    print("Doing first test")
     arch_cpu_time(model, config, args)
+    print("First test done")
 
     config['sample_layer_num'] = 4
     config['sample_hidden_size'] = 320
@@ -116,10 +151,14 @@ if __name__ == "__main__":
     config['sample_num_attention_heads'] = [5]*4
     config['sample_qkv_sizes'] = [320] * 4
 
-
-    arch_cpu_time(model, config, args)
-
-    input('')
+    #arch_cpu_time(model, config, args)
+    print(layer_numbers)
+    print(hidden_sizes[-1:-5:-1])
+    print(ffn_sizes[-1:-5:-1])
+    print(qkv_sizes[-1:-5:-1])
+    print(hidden_sizes)
+    print(ffn_sizes)
+    print(qkv_sizes)
 
     for layer_num in layer_numbers:
         config = dict()
@@ -150,3 +189,5 @@ if __name__ == "__main__":
                         config['sample_intermediate_sizes'] = [ffn_size] * layer_num
 
                         arch_cpu_time(model, config, args)
+
+        print(f"CURRENT PROP DONE: {(layer_num/len(layer_numbers)) * 100}%")
