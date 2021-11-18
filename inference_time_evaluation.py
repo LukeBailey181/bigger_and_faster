@@ -47,7 +47,6 @@ def arch_cpu_time(model, arch, args):
     with open('./latency_dataset/lat.tmp', 'a') as f:
         f.write(f'{arch}\t{aver_time}\n')
 
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--bert_model", default='tinybert_model/4l/', type=str)
