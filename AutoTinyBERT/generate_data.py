@@ -29,7 +29,7 @@ from random import randrange
 from transformer.tokenization import BertTokenizer
 
 # This is used for running on Huawei Cloud.
-oncloud = True
+oncloud = False
 try:
     import moxing as mox
 except:
@@ -125,13 +125,16 @@ def main():
     parser.add_argument("--num_workers", type=int, default=1,
                         help="The number of workers to use to write the files")
 
+    '''
     # add 1. for huawei yun.
     parser.add_argument("--data_url", type=str, default="", help="s3 url")
     parser.add_argument("--train_url", type=str, default="", help="s3 url")
     parser.add_argument("--init_method", default='', type=str)
+    '''
 
     args = parser.parse_args()
 
+    '''
     # add 2. for huawei yun.
     if oncloud:
         os.environ['DLS_LOCAL_CACHE_PATH'] = "/cache"
@@ -148,13 +151,14 @@ def main():
         
         args.train_url = os.path.join(args.train_url, args.output_dir)
         args.output_dir = Path(os.path.join(local_data_dir, args.output_dir))
-
+    '''
     if args.num_workers > 1 and args.reduce_memory:
         raise ValueError("Cannot use multiple workers while reducing memory")
 
     tokenizer = BertTokenizer.from_pretrained(args.bert_model, do_lower_case=args.do_lower_case)
     doc_num = 0
     with DocumentDatabase(reduce_memory=args.reduce_memory) as docs:
+        '''
         with args.train_corpus.open() as f:
             doc = []
             for line in tqdm(f, desc="Loading Dataset", unit=" lines"):
@@ -170,6 +174,26 @@ def main():
                     doc.append(tokens)
             if doc:
                 docs.add_document(doc)  # If the last doc didn't end on a newline, make sure it still gets added
+        '''
+        txt_names = next(os.walk(args.train_corpus))[2]
+        for txt_name in txt_names:#tqdm(txt_names, desc="Loading Raw Dataset", unit=" files"):
+            txt_path = os.path.join(args.train_corpus, txt_name)
+            doc = []
+
+            # Add each line from file to each doc
+            with open(txt_path, 'r') as f:
+                for line in f:
+                    #print('line:', line)
+                    line = line.strip()
+                    if line != '':
+                        tokens = tokenizer.tokenize(line)
+                        doc.append(tokens)
+
+            docs.add_document(doc)
+            doc_num += 1
+            if doc_num % 100 == 0:
+                logger.info('loaded {} docs!'.format(doc_num))
+
         if len(docs) <= 1:
             exit("ERROR: No document breaks were found in the input file! These are necessary to allow the script to "
                  "ensure that random NextSentences are not sampled from the same document. Please add blank lines to "
@@ -186,7 +210,7 @@ def main():
             fouts.append(open(file_name, 'w'))
 
         cnt = 0
-        for doc_idx in trange(len(docs), desc="Document"):
+        for doc_idx in range(len(docs)):#trange(len(docs), desc="Document"):
             document = docs[doc_idx]
             i = 0
             tokens = []

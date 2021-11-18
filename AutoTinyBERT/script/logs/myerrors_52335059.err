@@ -1,0 +1,27 @@
+
+CommandNotFoundError: Your shell has not been properly configured to use 'conda activate'.
+To initialize your shell, run
+
+    $ conda init <SHELL_NAME>
+
+Currently supported shells are:
+  - bash
+  - fish
+  - tcsh
+  - xonsh
+  - zsh
+  - powershell
+
+See 'conda init --help' for more information and options.
+
+IMPORTANT: You may need to close and restart your shell after running 'conda init'.
+
+
+Traceback (most recent call last):
+  File "/n/holylfs05/LABS/acc_lab/Users/yujichai/bigger_and_faster/AutoTinyBERT/generate_data.py", line 29, in <module>
+    from transformer.tokenization import BertTokenizer
+  File "/n/holylfs05/LABS/acc_lab/Users/yujichai/bigger_and_faster/AutoTinyBERT/transformer/__init__.py", line 14, in <module>
+    from .optimization import BertAdam
+  File "/n/holylfs05/LABS/acc_lab/Users/yujichai/bigger_and_faster/AutoTinyBERT/transformer/optimization.py", line 19, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
