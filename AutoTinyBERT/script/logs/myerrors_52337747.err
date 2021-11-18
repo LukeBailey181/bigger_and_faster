@@ -1,4 +1,0 @@
-  File "/n/holylfs05/LABS/acc_lab/Users/yujichai/bigger_and_faster/AutoTinyBERT/generate_data.py", line 179
-    for txt_name in txt_names#tqdm(txt_names, desc="Loading Raw Dataset", unit=" files"):
-                                                                                        ^
-SyntaxError: invalid syntax
