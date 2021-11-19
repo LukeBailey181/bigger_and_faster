@@ -22,7 +22,8 @@ def text_padding(max_seq_length, device, batch_size):
     return input_ids, input_masks, input_segments
 
 
-def arch_cpu_time(model, arch, args):
+def arch_cpu_time(model, arch, args, save_dir):
+
     aver_time = 0.
     infer_cnt = args.infer_cnt
     for i in range(infer_cnt):
@@ -44,7 +45,7 @@ def arch_cpu_time(model, arch, args):
             aver_time += sep / (args.infer_cnt - 1)
 
     print('{}\t{}'.format(arch, aver_time))
-    with open('./latency_dataset/lat.tmp', 'a') as f:
+    with open(save_dir + '/lat.tmp', 'a') as f:
         f.write(f'{arch}\t{aver_time}\n')
 
 if __name__ == "__main__":
@@ -61,6 +62,7 @@ if __name__ == "__main__":
     parser.add_argument('--head_num_space', nargs='+', type=int, default=[1, 12])
     parser.add_argument('--intermediate_size_space', nargs='+', type=int, default=[128, 1024])
     parser.add_argument('--mlm', action='store_true')
+    parser.add_argument('--save_dir', nargs='+', type=str, default='./latency_dataset')
 
     parser.add_argument('--infer_cnt', type=int, default=5)
 
@@ -88,6 +90,9 @@ if __name__ == "__main__":
     min_qkv_size, max_qkv_size = args.qkv_size_space
     min_head_size, max_head_size = args.head_num_space
 
+    #get save dir
+    save_dir = args.save_dir[0] 
+
     """
     hidden_step = 12
     ffn_step = 12
@@ -95,9 +100,9 @@ if __name__ == "__main__":
     head_step = 1
     """
 
-    hidden_step = 120
-    ffn_step = 120
-    qkv_step = 120
+    hidden_step = 16
+    ffn_step = 12
+    qkv_step = 12
     head_step = 1
 
     number_hidden_step = int((max_hidden_size - min_hidden_size) / hidden_step)
@@ -121,7 +126,8 @@ if __name__ == "__main__":
     config['vocab_size'] =  30522
 
     # Init write file
-    with open('./latency_dataset/lat.tmp', 'w') as f:
+    print(save_dir)
+    with open(save_dir + '/lat.tmp', 'w') as f:
         pass
 
     # Instantiate model
@@ -141,7 +147,7 @@ if __name__ == "__main__":
     # Test BERT-base time
 
     print("Doing first test")
-    arch_cpu_time(model, config, args)
+    arch_cpu_time(model, config, args, save_dir)
     print("First test done")
 
     config['sample_layer_num'] = 4
@@ -175,7 +181,7 @@ if __name__ == "__main__":
                     for qkv_size in qkv_sizes:
                         config['sample_qkv_sizes'] = [qkv_size] * layer_num
 
-                        arch_cpu_time(model, config, args)
+                        arch_cpu_time(model, config, args, save_dir)
         else:
             for head_size in head_sizes:
                 config['sample_num_attention_heads'] = [head_size] * layer_num
@@ -187,6 +193,6 @@ if __name__ == "__main__":
                     for ffn_size in ffn_sizes:
                         config['sample_intermediate_sizes'] = [ffn_size] * layer_num
 
-                        arch_cpu_time(model, config, args)
+                        arch_cpu_time(model, config, args, save_dir)
 
         print(f"CURRENT PROP DONE: {(layer_num/len(layer_numbers)) * 100}%")
