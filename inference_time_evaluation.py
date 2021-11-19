@@ -45,7 +45,7 @@ def arch_cpu_time(model, arch, args, save_dir):
             aver_time += sep / (args.infer_cnt - 1)
 
     print('{}\t{}'.format(arch, aver_time))
-    with open(save_dir + '/lat.tmp', 'a') as f:
+    with open(save_dir + 'lat.tmp', 'a') as f:
         f.write(f'{arch}\t{aver_time}\n')
 
 if __name__ == "__main__":
@@ -92,6 +92,8 @@ if __name__ == "__main__":
 
     #get save dir
     save_dir = args.save_dir[0] 
+    if save_dir[-1] != "/":
+        save_dir += "/"
 
     """
     hidden_step = 12
@@ -127,7 +129,7 @@ if __name__ == "__main__":
 
     # Init write file
     print(save_dir)
-    with open(save_dir + '/lat.tmp', 'w') as f:
+    with open(save_dir + 'lat.tmp', 'w') as f:
         pass
 
     # Instantiate model
