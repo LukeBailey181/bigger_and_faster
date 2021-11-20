@@ -133,7 +133,7 @@ if __name__ == "__main__":
         pass
 
     # Instantiate model
-    with open("./tinybert_model/4l/config.json", "w") as f:
+    with open(os.path.join(args.bert_model, "config.json"), "w") as f:
         json.dump(config, f)
 
     #config = BertConfig.from_dict(config)
