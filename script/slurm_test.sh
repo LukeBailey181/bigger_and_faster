@@ -10,6 +10,9 @@ OP=$1
 if [ "$OP" = "view" ]; then
   echo "View job status of $USER"
   squeue -u yujichai
+elif [ "$OP" = "queue" ]; then
+  echo "View queue status of $PARTITION"
+  showq -o -p $PARTITION
 elif [ "$OP" = "run" ]; then
   echo "Start interactive session using $PARTITION"
   srun --pty -p $PARTITION -t $RUNTIME -c $CPU --gres=gpu:$GPU --mem $MEMORY $COMMAND

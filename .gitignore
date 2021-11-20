@@ -1,6 +1,7 @@
 .DS_Store
 data/
 model/
+script/logs/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
