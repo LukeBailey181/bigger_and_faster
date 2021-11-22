@@ -961,8 +961,24 @@ class SuperTinyBertForPreTraining(BertPreTrainedModel):
         self.config = config
 
     def forward(self, input_ids, subbert_config, token_type_ids=None, attention_mask=None, kd=True):
+
+        if isinstance(subbert_config, torch.Tensor):
+
+            config = dict()            
+
+            config['sample_layer_num'] = int(subbert_config[0])
+            num_layers = config['sample_layer_num']
+            config['sample_num_attention_heads'] = [int(subbert_config[1])] * num_layers
+            config['sample_hidden_size'] = int(subbert_config[2])
+            config['sample_intermediate_sizes'] = [int(subbert_config[3])] * num_layers
+            config['sample_qkv_sizes'] = [int(subbert_config[4])] * num_layers
+            config['vocab_size'] = int(subbert_config[5])
+
+            subbert_config = config
+
         last_rep, last_att = self.bert(input_ids, subbert_config, token_type_ids,
                                        attention_mask, kd=kd)
+
         return last_rep, last_att
 
 
