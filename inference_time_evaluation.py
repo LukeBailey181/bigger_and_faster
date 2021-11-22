@@ -267,6 +267,6 @@ if __name__ == "__main__":
                     for ffn_size in ffn_sizes:
                         config['sample_intermediate_sizes'] = [ffn_size] * layer_num
 
-                        arch_cpu_time(model, config, args, save_dir)
+                        arch_cpu_time(model, config, args, save_dir, quant=True, config_keys=config_keys)
 
         print(f"CURRENT PROP DONE: {(layer_num/len(layer_numbers)) * 100}%")
