@@ -302,10 +302,10 @@ def main():
                         help="Number of threads to preprocess input data")
 
     # Search space for sub_bart architecture
-    parser.add_argument('--layer_num_space', nargs='+', type=int, default=[1, 8])
-    parser.add_argument('--hidden_size_space', nargs='+', type=int, default=[128, 768])
-    parser.add_argument('--qkv_size_space', nargs='+', type=int, default=[180, 768])
-    parser.add_argument('--intermediate_size_space', nargs='+', type=int, default=[128, 3072])
+    parser.add_argument('--layer_num_space', nargs='+', type=int, default=[1, 5])
+    parser.add_argument('--hidden_size_space', nargs='+', type=int, default=[128, 564])
+    parser.add_argument('--qkv_size_space', nargs='+', type=int, default=[180, 528])
+    parser.add_argument('--intermediate_size_space', nargs='+', type=int, default=[128, 1024])
     parser.add_argument('--head_num_space', nargs='+', type=int, default=[1, 12])
     parser.add_argument('--sample_times_per_batch', type=int, default=1)
     parser.add_argument('--further_train', action='store_true')
@@ -397,9 +397,11 @@ def main():
             student_model = SuperTinyBertForPreTraining.from_pretrained(args.student_model, config)
     else:
         if args.mlm_loss:
-            student_model = SuperBertForPreTraining.from_scratch(args.student_model, config)
+            #student_model = SuperBertForPreTraining.from_scratch(args.student_model, config)
+            student_model = SuperBertForPreTraining.from_pretrained(args.student_model, config)
         else:
-            student_model = SuperTinyBertForPreTraining.from_scratch(args.student_model, config)
+            #student_model = SuperTinyBertForPreTraining.from_scratch(args.student_model, config)
+            student_model = SuperTinyBertForPreTraining.from_pretrained(args.student_model, config)
 
     student_model.to(device)
 

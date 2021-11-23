@@ -3,6 +3,7 @@ import time
 import os
 import random
 import json
+import sys
 
 import torch
 import numpy as np
@@ -10,6 +11,8 @@ import numpy as np
 from transformer.modeling_super_kd import SuperTinyBertForPreTraining, BertConfig
 from transformer.tokenization import BertTokenizer
 
+import onnxruntime
+from onnxruntime.quantization import quantize_dynamic
 
 def text_padding(max_seq_length, device, batch_size):
     input_ids = [9333] * max_seq_length
@@ -21,22 +24,77 @@ def text_padding(max_seq_length, device, batch_size):
     input_segments = torch.tensor([input_segments]*batch_size, dtype=torch.long).to(device)
     return input_ids, input_masks, input_segments
 
+def convert_torch_to_onnx_inpput(input_ids, input_masks, config_keys, arch):
 
-def arch_cpu_time(model, arch, args, save_dir):
+    list_arch = []
+
+    for key in config_keys:
+        if isinstance(arch[key], list):
+            list_arch.append(arch[key][0])
+        else:
+            list_arch.append(arch[key])
+
+    onnx_input = (input_ids, torch.Tensor(list_arch), input_masks)
+
+    return onnx_input
+
+def arch_cpu_time(model, arch, args, save_dir, quant=False, config_keys=None):
+
+    master_start = time.time()
 
     aver_time = 0.
     infer_cnt = args.infer_cnt
+
+    if quant:
+
+        input_ids, input_masks, input_segments = text_padding(args.max_seq_length,
+                                               device,
+                                               args.batch_size)
+
+        dummy_input = convert_torch_to_onnx_inpput(input_ids, input_masks, config_keys, arch) 
+
+        input_names = [f"input_{i}" for i in range(len(dummy_input))]
+        start = time.time()
+        torch.onnx.export(model,
+                  dummy_input,
+                  "./temp.onnx",
+                  do_constant_folding=True,
+                  input_names = input_names,
+                  output_names = ["output"],
+                  verbose=False,
+                  opset_version=12)
+
+        quantize_dynamic("./temp.onnx", "./temp_q.onnx")
+
     for i in range(infer_cnt):
         input_ids, input_masks, input_segments = text_padding(args.max_seq_length,
                                                               device,
                                                               args.batch_size)
 
-        start = time.time()
-        
-        with torch.no_grad():
-            model(input_ids, arch, input_masks, kd=not args.mlm)
+        if quant:
 
-        end = time.time()
+            session  = onnxruntime.InferenceSession(
+                "./temp_q.onnx", providers=["CPUExecutionProvider"]
+            )
+
+            inp = convert_torch_to_onnx_inpput(input_ids, input_masks, config_keys, arch)
+
+            inp = [np.array(x) for x in inp]
+
+            ort_inputs = {
+                'input_0': inp[0],
+                'input_2' : inp[2]
+            }
+            start = time.time()
+            preds = session.run(None, ort_inputs)
+            end = time.time()
+
+        else:
+            start = time.time()
+            with torch.no_grad():
+                model(input_ids, arch, input_masks, kd=not args.mlm)
+            end = time.time()
+
         sep = 1000 * (end - start)
 
         if i == 0:
@@ -48,6 +106,10 @@ def arch_cpu_time(model, arch, args, save_dir):
     with open(save_dir + 'lat.tmp', 'a') as f:
         f.write(f'{arch}\t{aver_time}\n')
 
+    master_end = time.time()
+
+    print(master_end - master_start)
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--bert_model", default='tinybert_model/4l/', type=str)
@@ -56,7 +118,7 @@ if __name__ == "__main__":
     parser.add_argument("--seed", default=0, type=int)
 
     # Search space for sub_bart architecture
-    parser.add_argument('--layer_num_space', nargs='+', type=int, default=[1, 5])
+    parser.add_argument('--layer_num_space', nargs='+', type=int, default=[5, 5])
     parser.add_argument('--hidden_size_space', nargs='+', type=int, default=[128, 564])
     parser.add_argument('--qkv_size_space', nargs='+', type=int, default=[180, 528])
     parser.add_argument('--head_num_space', nargs='+', type=int, default=[1, 12])
@@ -140,7 +202,7 @@ if __name__ == "__main__":
     model.eval()
 
     print("Doing first test")
-    arch_cpu_time(model, config, args, save_dir)
+    arch_cpu_time(model, config, args, save_dir, quant=True, config_keys=config_keys)
     print("First test done")
 
     #arch_cpu_time(model, config, args)
@@ -154,6 +216,7 @@ if __name__ == "__main__":
 
     for layer_num in layer_numbers:
         config = dict()
+        config['vocab_size'] = 30522
         config['sample_layer_num'] = layer_num
 
         if not args.mlm:
@@ -168,7 +231,7 @@ if __name__ == "__main__":
                     for qkv_size in qkv_sizes:
                         config['sample_qkv_sizes'] = [qkv_size] * layer_num
 
-                        arch_cpu_time(model, config, args, save_dir)
+                        arch_cpu_time(model, config, args, save_dir, quant=True, config_keys=config_keys)
         else:
             for head_size in head_sizes:
                 config['sample_num_attention_heads'] = [head_size] * layer_num
@@ -180,6 +243,6 @@ if __name__ == "__main__":
                     for ffn_size in ffn_sizes:
                         config['sample_intermediate_sizes'] = [ffn_size] * layer_num
 
-                        arch_cpu_time(model, config, args, save_dir)
+                        arch_cpu_time(model, config, args, save_dir, quant=True, config_keys=config_keys)
 
         print(f"CURRENT PROP DONE: {(layer_num/len(layer_numbers)) * 100}%")
