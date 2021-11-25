@@ -979,6 +979,7 @@ class SuperTinyBertForPreTraining(BertPreTrainedModel):
 
         last_rep, last_att = self.bert(input_ids, subbert_config, token_type_ids,
                                        attention_mask, kd=kd)
+
         return last_rep, last_att
 
 
