@@ -11,4 +11,4 @@ module load Anaconda3
 eval "$(conda shell.bash hook)"
 conda activate baf-latency
 perl -e 'print "Job starting ...\n"'
-bash lat_dataset_gen.sh
+bash lat_dataset_gen_quant.sh

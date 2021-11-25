@@ -1,6 +1,6 @@
 USER=yujichai
 PARTITION=gpu # Partition to submit to, gpu or gpu_test
-PARTITION_TEST=unrestricted # The test partition to submit to, gpu_test
+PARTITION_TEST=gpu_test # The test partition to submit to, gpu_test
 RUNTIME=0-08:00 # Runtime in D-HH:MM, minimum of 10 minutes
 CPU=4 # number of CPU cores
 GPU=0 # number of GPUs
