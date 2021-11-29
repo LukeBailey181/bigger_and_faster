@@ -1,6 +1,11 @@
 import numpy as np
 import sys
 import torch
+from torch import nn
+
+##
+# Utils
+##
 
 def quantize(W, q=8):
     """
@@ -68,13 +73,16 @@ def quantize_model(model):
     """
     model.load_state_dict(get_quantized_state_dict(model))
 
+
+##
+# Tests of utils
+##
 def test_quantization(q=8):
-    def count_bytes(x):
-        return sys.getsizeof(x)
+    """
+    Test quantization utilities on randomly generated arrays
+    """
     def did_pass(x, thresh=2):
-        bytes_original = count_bytes(x.astype(np.float32))
         quantized, args = quantize(x, q)
-        bytes_quantized = count_bytes(quantized)
         dequantized = dequantize(quantized, args)
         mean_err = np.mean(np.abs(dequantized-x))  
         accurate = mean_err < thresh
@@ -91,11 +99,38 @@ def test_quantization(q=8):
     did_pass(np.random.normal(-10, 1, size=(100, 100)))
     did_pass(np.random.uniform(100, 100+255, size=(20, 40)))
 
-def test_model_overwrite():
-    model = torch.nn.Linear(9, 1)
-    print(f"State dict before: {model.state_dict()}")
-    quantize_model(model)
-    print(f"State dict after: {model.state_dict()}")
+def test_quantization_on_model(model, threshold=2):
+    """
+    Test quantization on a given model
+    """
+    old_state = dict(model.state_dict())
+
+    quant_state = dict(get_quantized_state_dict(model))
+
+    # check mean quantization error of every tensor
+    for key in old_state.keys():
+        mean_err = np.mean(np.abs(quant_state[key].numpy() - old_state[key].numpy()))
+        if mean_err > threshold:
+            print(f"Found mean error of {mean_err} above threshold of {threshold}")
+            return
+
+    print(f"All mean errors within threshold of {threshold}")
+
+def test_model_quantization(threshold=2):
+    """
+    Test quantization on an example model
+    """
+    # example non-trivial model
+    model = nn.Sequential(
+              nn.Conv2d(1,20,5),
+              nn.ReLU(),
+              nn.Conv2d(20,64,5),
+              nn.ReLU()
+            )
+
+    # check mean error of tensors after quantization
+    test_quantization_on_model(model, threshold)
+    
 
 if __name__ == "__main__":
-    test_model_overwrite()
+    test_model_quantization()
