@@ -181,7 +181,7 @@ if __name__ == '__main__':
                         help='the path to read latency dataset')
     parser.add_argument('--ckpt_path', type=str, default='latency_dataset/ckpts/time.pt',
                         help='path to save latency predictor weights')
-    parser.add_argument('--feature_norm', type=float, nargs='+', default=[768, 12, 3072, 768],
+    parser.add_argument('--feature_norm', type=float, nargs='+', default=[564, 5, 1024, 564],
                         help='normalizing factor for each feature')
     parser.add_argument('--lat_norm', type=float, default=200, help='normalizing factor for latency')
     parser.add_argument('--feature_dim', type=int, default=4, help='dimension of feature vector')
@@ -206,8 +206,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
     print(args)
 
-    assert args.get_candidates and args.candidate_file, 'get_candidates and candidate_file must be set simultaneously'
-    assert args.model in ['MLM', 'KD']
+    #assert args.get_candidates and args.candidate_file, 'get_candidates and candidate_file must be set simultaneously'
+    #assert args.model in ['MLM', 'KD']
 
     predictor = LatencyPredictor(lat_dataset_path=args.lat_dataset_path, feature_norm=args.feature_norm,
                                  lat_norm=args.lat_norm, feature_dim=args.feature_dim,
@@ -219,8 +219,10 @@ if __name__ == '__main__':
                                  lr=args.lr)
 
     if not args.get_candidates:
+        print("Loading dataset")
         predictor.read_dataset()
         predictor.split()
+        print("Training predictor")
         predictor.train()
         print('Latency predictor training finished!\nThe model has been saved!')
     else:

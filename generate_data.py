@@ -118,11 +118,11 @@ def main():
     parser.add_argument("--output_dir", type=Path, required=True)
     parser.add_argument("--bert_model", type=str, required=True)
     parser.add_argument("--do_lower_case", action="store_true")
-    parser.add_argument("--max_seq_len", type=int, default=128)
+    parser.add_argument("--max_seq_len", type=int, default=512)
     parser.add_argument("--reduce_memory", action="store_true",
                         help="Reduce memory usage for large datasets by keeping data on disc rather than in memory")
 
-    parser.add_argument("--num_workers", type=int, default=1,
+    parser.add_argument("--num_workers", type=int, default=4,
                         help="The number of workers to use to write the files")
 
     '''
@@ -217,29 +217,34 @@ def main():
             while i < len(document):
                 segment = document[i]
                 if len(tokens) + len(segment) > args.max_seq_len:
-                    instance = {"tokens": tokens}
+                    if len(tokens) >= 3:
+                        instance = {"tokens": tokens}
 
-                    file_idx = cnt % file_num
-                    fouts[file_idx].write(json.dumps(instance) + '\n')
+                        file_idx = cnt % file_num
+                        fouts[file_idx].write(json.dumps(instance) + '\n')
 
-                    cnt += 1
-                    if cnt % 100000 == 0:
-                        logger.info('loaded {} examples!'.format(cnt))
+                        cnt += 1
+                        if cnt % 100000 == 0:
+                            logger.info('loaded {} examples!'.format(cnt))
 
-                    if cnt <= 10:
-                        logger.info('instance: {}'.format(instance))
+                        if cnt <= 10:
+                            logger.info('instance: {}'.format(instance))
 
                     tokens = []
-                    tokens += segment
+                    if len(segment) > args.max_seq_len:
+                        tokens += segment[0:args.max_seq_len]
+                    else:
+                        tokens += segment
                 else:
                     tokens += segment
 
                 i += 1
 
             if tokens:
-                instance = {"tokens": tokens}
-                file_idx = cnt % file_num
-                fouts[file_idx].write(json.dumps(instance) + '\n')
+                if len(tokens) >= 3:
+                    instance = {"tokens": tokens}
+                    file_idx = cnt % file_num
+                    fouts[file_idx].write(json.dumps(instance) + '\n')
 
         for fout in fouts:
             fout.close()

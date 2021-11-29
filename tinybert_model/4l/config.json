@@ -1,1 +1,0 @@
-{"sample_layer_num": 12, "sample_num_attention_heads": [12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12], "sample_hidden_size": 768, "sample_intermediate_sizes": [3072, 3072, 3072, 3072, 3072, 3072, 3072, 3072, 3072, 3072, 3072, 3072], "sample_qkv_sizes": [768, 768, 768, 768, 768, 768, 768, 768, 768, 768, 768, 768], "vocab_size": 30522}

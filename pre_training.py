@@ -53,7 +53,7 @@ except ImportError:
 
 import logging
 
-from apex.parallel import DistributedDataParallel as DDP
+#from apex.parallel import DistributedDataParallel as DDP
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s -   %(message)s',
                     datefmt='%m/%d/%Y %H:%M:%S',
@@ -74,6 +74,8 @@ def create_masked_lm_predictions(tokens, masked_lm_prob, max_predictions_per_seq
 
     num_to_mask = min(max_predictions_per_seq,
                       max(1, int(round(len(tokens) * masked_lm_prob))))
+    #print('num_to_mask:', num_to_mask)
+    #print('len(tokens):', len(tokens))
     mask_indices = sorted(random.sample(range(1, len(tokens)-1), num_to_mask))
     masked_token_labels = [tokens[index] for index in mask_indices]
     for index in mask_indices:
@@ -99,6 +101,7 @@ def convert_example_to_features(example, args):
                                                                                  args.max_predictions_per_seq,
                                                                                  args.vocab_list)
 
+    #print('length of tokens', len(tokens))
     assert len(tokens) <= args.max_seq_length  # The preprocessed data should be already truncated
     try:
         input_ids = args.tokenizer.convert_tokens_to_ids(tokens)
@@ -299,10 +302,10 @@ def main():
                         help="Number of threads to preprocess input data")
 
     # Search space for sub_bart architecture
-    parser.add_argument('--layer_num_space', nargs='+', type=int, default=[1, 8])
-    parser.add_argument('--hidden_size_space', nargs='+', type=int, default=[128, 768])
-    parser.add_argument('--qkv_size_space', nargs='+', type=int, default=[180, 768])
-    parser.add_argument('--intermediate_size_space', nargs='+', type=int, default=[128, 3072])
+    parser.add_argument('--layer_num_space', nargs='+', type=int, default=[1, 5])
+    parser.add_argument('--hidden_size_space', nargs='+', type=int, default=[128, 564])
+    parser.add_argument('--qkv_size_space', nargs='+', type=int, default=[180, 528])
+    parser.add_argument('--intermediate_size_space', nargs='+', type=int, default=[128, 1024])
     parser.add_argument('--head_num_space', nargs='+', type=int, default=[1, 12])
     parser.add_argument('--sample_times_per_batch', type=int, default=1)
     parser.add_argument('--further_train', action='store_true')
@@ -335,8 +338,8 @@ def main():
     print('device_count: %s, rank: %s, world_size: %s' % (device_count, args.rank, args.world_size))
     print(init_method)
 
-    torch.distributed.init_process_group(backend='nccl', world_size=args.world_size,
-                                         rank=args.rank, init_method=init_method)
+    #torch.distributed.init_process_group(backend='nccl', world_size=args.world_size,
+    #                                     rank=args.rank, init_method=init_method)
 
     LOCAL_DIR = args.cache_dir
     if oncloud:
@@ -367,7 +370,7 @@ def main():
             os.makedirs(bash_tsbd_dir)
             logger.info(bash_tsbd_dir + ' created!')
 
-    local_data_dir_tmp = '/cache/data/tmp/'
+    local_data_dir_tmp = os.path.join(LOCAL_DIR, 'cache/data/tmp/')
     local_data_dir = local_data_dir_tmp + save_name
 
     if args.gradient_accumulation_steps < 1:
@@ -394,15 +397,18 @@ def main():
             student_model = SuperTinyBertForPreTraining.from_pretrained(args.student_model, config)
     else:
         if args.mlm_loss:
-            student_model = SuperBertForPreTraining.from_scratch(args.student_model, config)
+            #student_model = SuperBertForPreTraining.from_scratch(args.student_model, config)
+            student_model = SuperBertForPreTraining.from_pretrained(args.student_model, config)
         else:
-            student_model = SuperTinyBertForPreTraining.from_scratch(args.student_model, config)
+            #student_model = SuperTinyBertForPreTraining.from_scratch(args.student_model, config)
+            student_model = SuperTinyBertForPreTraining.from_pretrained(args.student_model, config)
 
     student_model.to(device)
 
     if not args.mlm_loss:
         teacher_model = BertModel.from_pretrained(args.teacher_model)
         teacher_model.to(device)
+        teacher_model.eval()
 
     # build arch space
     min_hidden_size, max_hidden_size = args.hidden_size_space
@@ -452,7 +458,8 @@ def main():
 
         args.local_data_dir = os.path.join(local_data_dir, str(epoch))
         if args.local_rank == 0:
-            os.makedirs(args.local_data_dir)
+            if not os.path.exists(args.local_data_dir):
+                os.makedirs(args.local_data_dir)
         while 1:
             if os.path.exists(args.local_data_dir):
                 epoch_dataset = load_doc_tokens_ngrams(args)
@@ -493,6 +500,7 @@ def main():
                                  t_total=num_train_optimization_steps,
                                  warmup=warm_up_ratio)
 
+            '''
             if args.fp16:
                 try:
                     from apex import amp
@@ -515,6 +523,7 @@ def main():
                 teacher_model.eval()
 
             logger.info('apex data paralleled!')
+            '''
 
         from torch.nn import MSELoss
         loss_mse = MSELoss()
