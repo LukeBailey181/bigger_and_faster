@@ -1,9 +1,9 @@
 USER=yujichai
 PARTITION=unrestricted # Partition to submit to, gpu or gpu_test
-PARTITION_TEST=unrestricted # The test partition to submit to, gpu_test
+PARTITION_TEST=bigmem # The test partition to submit to, gpu_test
 RUNTIME=0-08:00 # Runtime in D-HH:MM, minimum of 10 minutes
 CPU=4 # number of CPU cores
-MEMORY=32000 # Memory pool for all cores (see also --mem-per-cpu)
+MEMORY=200000 # Memory pool for all cores (see also --mem-per-cpu)
 COMMAND=/bin/bash
 OP=$1
 
