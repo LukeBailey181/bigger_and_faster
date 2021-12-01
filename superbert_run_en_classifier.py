@@ -46,6 +46,8 @@ from transformer.modeling_super_kd import SuperBertForSequenceClassification, Su
 from transformer.tokenization import BertTokenizer, BasicTokenizer, whitespace_tokenize
 from transformer.optimization import BertAdam
 
+from quantize_utils import quantize_model
+
 
 csv.field_size_limit(sys.maxsize)
 
@@ -1619,7 +1621,7 @@ def main():
                         metavar='W',
                         help='weight decay')
     parser.add_argument("--num_train_epochs",
-                        default=3.0,
+                        default=1.0,
                         type=float,
                         help="Total number of training epochs to perform.")
     parser.add_argument("--warmup_proportion",
@@ -1708,7 +1710,7 @@ def main():
     default_params = {
         "cola": {"num_train_epochs": 10, "max_seq_length": 64, "learning_rate": 1e-5,
                  "batch_size": 32, "eval_step": 50},
-        "mnli": {"num_train_epochs": 4, "max_seq_length": 128, "learning_rate": 3e-5,
+        "mnli": {"num_train_epochs": 1, "max_seq_length": 128, "learning_rate": 3e-5,
                  "eval_step": 500, "train_batch_size": 32},
         "mrpc": {"num_train_epochs": 10, "max_seq_length": 128, "learning_rate": 2e-5,
                  "batch_size": 32, "eval_step": 10},
@@ -2035,6 +2037,9 @@ def main():
                             logger.info("  Num examples = %d", len(eval_examples))
                             logger.info("  Batch size = %d", args.eval_batch_size)
 
+                            model.to('cpu')
+                            quantize_model(model)
+                            model.to(device)
                             model.eval()
 
                             loss = tr_loss / (step + 1)

@@ -226,7 +226,7 @@ def generate_search_space(args):
 
     # both hidden_step and ffn_step are 4 in original paper.
     # these settings are for efficiency.
-    hidden_step = 16
+    hidden_step = 12
     ffn_step = 32
     qkv_step = 12
     head_step = 1
@@ -266,12 +266,12 @@ if __name__ == '__main__':
     # Arguments for Searching
     parser.add_argument('--latency_constraint', type=float, default=7)
     parser.add_argument('--method', type=str, default='Random')
-    parser.add_argument('--model', type=str, default='MLM')
-    parser.add_argument('--gen_size', type=int, default=25)
+    parser.add_argument('--model', type=str, default='KD')
+    parser.add_argument('--gen_size', type=int, default=10)
 
-    parser.add_argument('--layer_num_space', nargs='+', type=int, default=[1, 8])
-    parser.add_argument('--hidden_size_space', nargs='+', type=int, default=[128, 768])
-    parser.add_argument('--qkv_size_space', nargs='+', type=int, default=[180, 768])
+    parser.add_argument('--layer_num_space', nargs='+', type=int, default=[1, 5])
+    parser.add_argument('--hidden_size_space', nargs='+', type=int, default=[144, 528])
+    parser.add_argument('--qkv_size_space', nargs='+', type=int, default=[144, 528])
     parser.add_argument('--head_num_space', nargs='+', type=int, default=[1, 12])
     parser.add_argument('--intermediate_size_space', nargs='+', type=int, default=[128, 3072])
 
@@ -320,13 +320,11 @@ if __name__ == '__main__':
 
                     for ffn_size in ffn_sizes:
                         config['sample_intermediate_sizes'] = [ffn_size] * layer_num
+                        config['sample_qkv_sizes'] = [hidden_size] * layer_num
+                        lat_ = predictor.predict_lat(config)
 
-                        for qkv_size in qkv_sizes:
-                            config['sample_qkv_sizes'] = [qkv_size] * layer_num
-                            lat_ = predictor.predict_lat(config)
-
-                            if latency_min <= lat_ <= latency_max:
-                                candidates.append(dict(config))
+                        if latency_min <= lat_ <= latency_max:
+                            candidates.append(dict(config))
 
             else:
                 for head_size in head_sizes:
