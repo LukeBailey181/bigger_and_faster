@@ -58,5 +58,29 @@ Now run `train_lat_predictor.sh`
 
 ### Step 6: Run NAS
 
+First download the MNLI dataset from https://gluebenchmark.com/tasks.
 
-## Running BERT-Tickets
+Go to the script directory and edit the `search.sh` file to reflect the correct values for the following variables:
+
+PROJECT_ROOT: path to the root of the Bigger&Faster repository
+CKPT_PATH: path to quantized latency predictor
+MODEL: path to super model
+DATA_DIR: path to the "MNLI" directory that you downloaded from the glue benchmark website
+
+You will also notice a code block at the top that looks like:
+
+```
+if [ "$TYPE" = "fp" ]; then
+CKPT_PATH="${PROJECT_ROOT}/conf_datasets/lat_predictor.pt"
+fi
+```
+
+The CKPT_PATH here should be set to the path of your floating point latency predictor should you want to run the baseline search and not the quantized search.
+
+Repeat the above for the `search_and_eval.sh` script.
+
+Finally, go to the script directory and edit the `search.sh` file to reflect the correct values for the following variables:
+
+TYPE: "ptq" for quantized search, "fp" for baseline floating point search
+LATENCY_CONSTRAINT: The latency constraint for the search 
+
