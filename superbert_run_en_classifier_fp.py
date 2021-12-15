@@ -1842,7 +1842,7 @@ def main():
 
                 task_name = task_name.lower()
                 if task_name in default_params:
-                    args.num_train_epochs = default_params[task_name]["num_train_epochs"]
+                    # = default_params[task_name]["num_train_epochs"]
                     args.max_seq_length = default_params[task_name]["max_seq_length"]
                     args.learning_rate = default_params[task_name]["learning_rate"]
                     args.eval_step = default_params[task_name]["eval_step"]
@@ -2037,9 +2037,9 @@ def main():
                             logger.info("  Num examples = %d", len(eval_examples))
                             logger.info("  Batch size = %d", args.eval_batch_size)
 
-                            model.to('cpu')
-                            quantize_model(model)
-                            model.to(device)
+                            #model.to('cpu')
+                            #quantize_model(model)
+                            #model.to(device)
                             model.eval()
 
                             loss = tr_loss / (step + 1)
