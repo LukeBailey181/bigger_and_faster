@@ -191,7 +191,8 @@ class Evolver(object):
                         new_qkv_idx = qkv_size_idxes[0] + qkv_offset
 
                 new_arch['sample_num_attention_heads'] = [12] * new_layer_num
-                new_arch['sample_qkv_sizes'] = [qkv_sizes[new_qkv_idx]] * new_layer_num
+                #new_arch['sample_qkv_sizes'] = [qkv_sizes[new_qkv_idx]] * new_layer_num
+                new_arch['sample_qkv_sizes'] = [new_arch['sample_hidden_size']] * new_layer_num
 
             new_arch_latency = latency_predictor.predict_lat(new_arch)
 
@@ -255,7 +256,7 @@ if __name__ == '__main__':
     parser.add_argument('--arch_perfs_file', type=str, default='')
     parser.add_argument('--output_file', type=str, default='cands/archs.txt')
 
-    parser.add_argument('--feature_norm', type=float, nargs='+', default=[768, 12, 3072, 768],
+    parser.add_argument('--feature_norm', type=float, nargs='+', default=[564, 5, 1024, 564],
                         help='normalizing factor for each feature')
     parser.add_argument('--lat_norm', type=float, default=200, help='normalizing factor for latency')
     parser.add_argument('--feature_dim', type=int, default=4, help='dimension of feature vector')
@@ -273,7 +274,7 @@ if __name__ == '__main__':
     parser.add_argument('--hidden_size_space', nargs='+', type=int, default=[144, 528])
     parser.add_argument('--qkv_size_space', nargs='+', type=int, default=[144, 528])
     parser.add_argument('--head_num_space', nargs='+', type=int, default=[1, 12])
-    parser.add_argument('--intermediate_size_space', nargs='+', type=int, default=[128, 3072])
+    parser.add_argument('--intermediate_size_space', nargs='+', type=int, default=[128, 1024])
 
     args = parser.parse_args()
     print(args)
@@ -294,7 +295,7 @@ if __name__ == '__main__':
     elif args.model == 'MLM':
         bert_base_lat = 886
 
-    latency = bert_base_lat / args.latency_constraint
+    latency = args.latency_constraint
 
     # you can design different upper and lower value in here
     latency_min, latency_max = 0.85 * latency, 1.1 * latency

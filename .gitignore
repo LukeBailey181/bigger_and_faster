@@ -3,6 +3,8 @@
 data/
 model/
 script/logs/
+output/
+cands/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
