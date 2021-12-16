@@ -1,5 +1,24 @@
 # Bigger\&Faster: Two-stage Neural Architecture Search for Quantized BERT Models
 
+## Overview of repository
+
+This repository is based off the AutoTinyBert repository as our project was an adaptation (and dare we say improvement) of the work they did. Here we give a brief overview of what each file does:
+
+* `generate_data.py` - used for processing the raw BookCorpus dataset so it can be used to train the super model.
+* `inference_time_evaluation_quant.py` - used to generate the quantized or unquantized latency predictor datasets. We incorporated PyTorch dynamic quantization into this file and edited how the search space was traversed. This is because we needed to covert between the transformer representation that AutoTinyBert used and that used in native HuggingFace so we could use PyTorch to quantize the models.
+* `inference_time_evaluation_quant_onnx.py` - this file can also be used to create a quantized or unquantized latency predictor dataset but the quantization is done using onnx and onnxruntime. We did not end up using this method in our final work because the conversion to onnx was too slow.
+* `latency_predictor.py` - contains the code to train the latency predictor and the latency predictor architecture.
+* `pre_training.py` - used to train the super model.
+* `quantize_utils.py` - custom int8 quantization utility functions we wrote to use during the search process.
+* `script` - a directory that contains all the shell scripts we wrote to run various parts of the pipeline. More details on this in the below section about running our code.
+* `seacher.py`, `superbert_run_en_classifier_fp.py` and, `superbert_run_en_classifier_ptq.py` - files to run the NAS process. These include additions we made to incorporate quantization into the NAS process.
+* `Transformer` - edited version of the transformers library included in the AutoTinyBert repository. It contains BERT classes with more flexible architectures than vanilla HuggingFace.
+  * `hf_converter.py` - a file we added to `Transformer` than can be used to convert between `Transformer` BERT models and HuggingFace models.
+* `submodel_extractor.py` - used to extract submodels from super model.
+* `utils.py` - architecture sampling utilities.
+
+## How to run the code
+
 ### Step 1: Prepare environment
 
 To begin with ensure you have python version 3.8 and create a virtual environment using your favourite Python environment handler (we recommend conda).
@@ -34,7 +53,7 @@ STUDENT_MODEL: path to the directory where the model downloaded from baidu drive
 
 ### Step 4: Create latency dataset
 
-To create the latency dataset go to the script directory and edit the `lat_dataset_gen_quant.sh` to reflect the correct following variable paths:
+To create the latency dataset go to the script directory and edit the `lat_dataset_gen_quant.sh` to reflect the correct values for the following variables:
 PROJECT_ROOT:  path to the root of the Bigger&Faster repository \
 SUPER_MODEL:  path to the super model \
 SAVE_PATH_DIR: path to the where to save the dataset, including name of the dataset 
@@ -45,7 +64,7 @@ Note if you want to create a non quantized latency dataset simply follow the abo
 
 ### Step 5: Train latency predictor
 
-To train the latency predictor go to the script directory and edit the `train_lat_predictor.sh` to reflect the correct following variable paths:
+To train the latency predictor go to the script directory and edit the `train_lat_predictor.sh` to reflect the correct values for the following variables:
 
 PROJECT_ROOT: path to the root of the Bigger&Faster repository \
 LAT_DATASET_PATH: path to the latency dataset \
