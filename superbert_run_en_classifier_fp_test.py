@@ -47,6 +47,7 @@ from transformer.tokenization import BertTokenizer, BasicTokenizer, whitespace_t
 from transformer.optimization import BertAdam
 
 from quantize_utils import quantize_model
+from convert_testing_quant import load_testing_model
 
 
 csv.field_size_limit(sys.maxsize)
@@ -1032,6 +1033,52 @@ def result_to_file(result, file_name):
             writer.write("%s = %s\n" % (key, str(result[key])))
 
 
+def do_eval_(model, task_name, eval_dataloader,
+            device, output_mode, eval_labels, num_labels):
+    eval_loss = 0
+    nb_eval_steps = 0
+    preds = []
+    infer_times = []
+    for batch_ in tqdm(eval_dataloader, desc="Evaluating"):
+        batch_ = tuple(t.to(device) for t in batch_)
+        with torch.no_grad():
+            input_ids, input_mask, segment_ids, label_ids, seq_lengths = batch_
+            start = datetime.now()
+            logits = model(input_ids, input_mask)["logits"]
+            infer_times.append((datetime.now() - start).microseconds / 1000)
+        # create eval loss and other metric required by the task
+        if output_mode == "classification":
+            loss_fct = CrossEntropyLoss()
+            tmp_eval_loss = loss_fct(logits.view(-1, num_labels), label_ids.view(-1))
+        elif output_mode == "regression":
+            loss_fct = MSELoss()
+            tmp_eval_loss = loss_fct(logits.view(-1), label_ids.view(-1))
+
+        eval_loss += tmp_eval_loss.mean().item()
+        nb_eval_steps += 1
+        if len(preds) == 0:
+            preds.append(logits.detach().cpu().numpy())
+        else:
+            preds[0] = np.append(
+                preds[0], logits.detach().cpu().numpy(), axis=0)
+
+    eval_loss = eval_loss / nb_eval_steps
+
+    preds = preds[0]
+    if output_mode == "classification":
+        preds = np.argmax(preds, axis=1)
+    elif output_mode == "regression":
+        preds = np.squeeze(preds)
+    result = compute_metrics(task_name, preds, eval_labels.numpy())
+    result['eval_loss'] = eval_loss
+    result['infer_cnt'] = len(infer_times)
+    result['infer_time'] = sum(infer_times) / len(infer_times)
+    logger.info("******** Eval results ********")
+    for key in sorted(result.keys()):
+        logger.info(" dev: %s = %s", key, str(result[key]))
+    return result
+
+
 def do_eval(model, task_name, eval_dataloader,
             device, output_mode, eval_labels, num_labels, subbert_config):
     eval_loss = 0
@@ -1580,6 +1627,11 @@ def main():
                         type=str,
                         required=True,
                         help="The student model dir.")
+    parser.add_argument("--model_test",
+                        default=None,
+                        type=str,
+                        required=True,
+                        help="The test student model dir.")
     parser.add_argument("--task_name",
                         default=None,
                         type=str,
@@ -1847,7 +1899,7 @@ def main():
 
                 task_name = task_name.lower()
                 if task_name in default_params:
-                    #args.num_train_epochs = default_params[task_name]["num_train_epochs"]
+                    # = default_params[task_name]["num_train_epochs"]
                     args.max_seq_length = default_params[task_name]["max_seq_length"]
                     args.learning_rate = default_params[task_name]["learning_rate"]
                     args.eval_step = default_params[task_name]["eval_step"]
@@ -1940,12 +1992,16 @@ def main():
                 loss_mse = MSELoss()
                 loss_fct = CrossEntropyLoss()
 
+                '''
                 if output_mode == 'qa_classification':
                     model = SuperBertForQuestionAnswering.from_pretrained(args.model, config)
                 else:
                     model = SuperBertForSequenceClassification.from_pretrained(args.model, config)
+                '''
+                model = load_testing_model(model_path=args.model_test)
                 model.to(device)
 
+                '''
                 if n_gpu > 1:
                     model = torch.nn.DataParallel(model)
 
@@ -1957,20 +2013,7 @@ def main():
                 for n, p in model.named_parameters():
                     size += p.nelement()
                 logger.info('Total parameters: {}'.format(size))
-
-                no_decay = ['bias', 'LayerNorm.bias', 'LayerNorm.weight']
-                optimizer_grouped_parameters = [
-                    {'params': [p for n, p in param_optimizer if not any(nd in n for nd in no_decay)],
-                     'weight_decay': 0.01},
-                    {'params': [p for n, p in param_optimizer if any(nd in n for nd in no_decay)], 'weight_decay': 0.0}
-                ]
-                schedule = 'warmup_linear'
-                optimizer = BertAdam(optimizer_grouped_parameters,
-                                     schedule=schedule,
-                                     lr=args.learning_rate,
-                                     warmup=args.warmup_proportion,
-                                     t_total=num_train_optimization_steps)
-
+                '''
                 logger.info("***** Running training *****")
                 logger.info("  Num examples = %d", len(train_examples))
                 logger.info("  Batch size = %d", args.train_batch_size)
@@ -1981,121 +2024,9 @@ def main():
                 best_dev_acc = 0.0
                 best_dev_acc_str = ''
                 infer_cnt = 0
-                infer_times = []
+                infer_times = [0]
                 output_eval_file = os.path.join(args.output_dir, "eval_results.txt")
-
-                for epoch_ in trange(int(args.num_train_epochs), desc="Epoch"):
-                    tr_loss = 0.
-                    tr_cls_loss = 0.
-
-                    model.train()
-                    nb_tr_examples, nb_tr_steps = 0, 0
-
-                    for step, batch in enumerate(tqdm(train_dataloader, desc="Iteration", ascii=True)):
-                        batch = tuple(t.to(device) for t in batch)
-
-                        if output_mode == 'qa_classification':
-                            input_ids, input_mask, segment_ids, start_positions, end_positions = batch
-                        else:
-                            input_ids, input_mask, segment_ids, label_ids, seq_lengths = batch
-
-                        if input_ids.size()[0] != args.train_batch_size:
-                            continue
-                        
-                        cls_loss = 0.
-
-                        if output_mode == 'qa_classification':
-                            cls_loss = model(input_ids, subbert_config, input_mask,
-                                             segment_ids, start_positions, end_positions,
-                                             kd_infer=True if args.super_model == 'KD' else False)
-                        else:
-                            student_logits = model(input_ids, subbert_config, input_mask, segment_ids,
-                                                   kd_infer=True if args.super_model == 'KD' else False)
-
-                            if output_mode == "classification":
-                                cls_loss = loss_fct(student_logits.view(-1, num_labels), label_ids.view(-1))
-                            elif output_mode == "regression":
-                                cls_loss = loss_mse(student_logits.view(-1), label_ids.view(-1))
-
-                        loss = cls_loss
-                        tr_cls_loss += cls_loss.item()
-
-                        if n_gpu > 1:
-                            loss = loss.mean()  # mean() to average on multi-gpu.
-                        if args.gradient_accumulation_steps > 1:
-                            loss = loss / args.gradient_accumulation_steps
-
-                        loss.backward()
-
-                        tr_loss += loss.item()
-                        nb_tr_examples += input_ids.size(0)
-                        nb_tr_steps += 1
-
-                        if (step + 1) % args.gradient_accumulation_steps == 0:
-                            optimizer.step()
-                            optimizer.zero_grad()
-                            global_step += 1
-
-                        if (global_step + 1) % args.eval_step == 0:
-                            logger.info("***** Running evaluation *****")
-                            logger.info("  Epoch = {} iter {} step".format(epoch_, global_step))
-                            logger.info("  Num examples = %d", len(eval_examples))
-                            logger.info("  Batch size = %d", args.eval_batch_size)
-
-                            model.eval()
-
-                            loss = tr_loss / (step + 1)
-                            cls_loss = tr_cls_loss / (step + 1)
-
-                            if output_mode != 'qa_classification':
-                                result = do_eval(model, task_name, eval_dataloader,
-                                                 device, output_mode, eval_labels, num_labels, subbert_config)
-                            else:
-                                result = do_qa_eval(args, model, eval_dataloader, eval_features, eval_examples,
-                                                    device, eval_dataset, subbert_config)
-
-                            infer_cnt += result['infer_cnt']
-                            infer_times.append(result['infer_time'])
-
-                            result['global_step'] = global_step
-                            result['cls_loss'] = cls_loss
-                            result['loss'] = loss
-
-                            result_to_file(result, output_eval_file)
-
-                            update_best = False
-
-                            if task_name in acc_tasks and result['acc'] > best_dev_acc:
-                                best_dev_acc = result['acc']
-                                best_dev_acc_str = str(best_dev_acc)
-                                update_best = True
-
-                            if task_name in corr_tasks and result['corr'] > best_dev_acc:
-                                best_dev_acc = result['corr']
-                                best_dev_acc_str = str(best_dev_acc)
-                                update_best = True
-
-                            if task_name in mcc_tasks and result['mcc'] > best_dev_acc:
-                                best_dev_acc = result['mcc']
-                                best_dev_acc_str = str(best_dev_acc)
-                                update_best = True
-
-                            if task_name in qa_tasks and result['f1'] + result['em'] > best_dev_acc:
-                                best_dev_acc = result['f1'] + result['em']
-                                best_dev_acc_str = 'f1: {}; em: {}'.format(result['f1'], result['em'])
-                                update_best = True
-
-                            if update_best:
-                                # Save a trained model
-                                model_name = "{}_seed{}".format(task_name, str(seed))
-                                logging.info("** ** * Saving fine-tuned model ** ** * ")
-                                # Only save the model it-self
-                                model_to_save = model.module if hasattr(model, 'module') else model
-                                output_model_file = os.path.join(args.output_dir, model_name)
-                                torch.save(model_to_save.state_dict(), output_model_file)
-                                tokenizer.save_vocabulary(args.output_dir)
-
-                            model.train()
+                model.eval()
 
                 if task_name == "mnli":
                     task_name = "mnli-mm"
@@ -2117,24 +2048,11 @@ def main():
                     eval_dataloader = DataLoader(eval_data, sampler=eval_sampler,
                                                  batch_size=args.eval_batch_size)
 
-                    model.eval()
-                    logger.info('Before quantizing model @ last epoch')
-                    result = do_eval(model, task_name, eval_dataloader,
+                    result = do_eval_(model, task_name, eval_dataloader,
                                      device, output_mode, eval_labels,
-                                     num_labels, subbert_config)
-                    
-                    logger.info('After quantizing model @ last epoch')
-                    model.to('cpu')
-                    quantize_model(model)
-                    model.to(device)
-                    
-                    result = do_eval(model, task_name, eval_dataloader,
-                                     device, output_mode, eval_labels,
-                                     num_labels, subbert_config)
+                                     num_labels)
 
                     result['global_step'] = global_step
-                    best_dev_acc = result['acc']
-                    best_dev_acc_str = str(best_dev_acc)
 
                     tmp_output_eval_file = os.path.join(args.output_dir + '-MM', "eval_results.txt")
                     result_to_file(result, tmp_output_eval_file)
@@ -2142,12 +2060,23 @@ def main():
                         mox.file.copy(tmp_output_eval_file, os.path.join(args.train_url, "mm-eval_results.txt"))
                     task_name = "mnli"
 
-                model_to_save = model.module if hasattr(model,
-                                                        'module') else model
-                parameter_size = model_to_save.calc_sampled_param_num()
+                model_to_save = model.module if hasattr(model, 'module') else model
+
+                def count_parameters(m):
+                    return sum(p.numel() for p in m.parameters() if p.requires_grad)
+                parameter_size = count_parameters(model_to_save)
+
+                if hasattr(model, 'module'):
+                    print("There is atrribute module for model!")
+                else:
+                    print("There is no atrribute module for model!")
 
                 if args.save_model_flag != 0:
-                    torch.save(model.state_dict(), args.output_dir)
+                    model_to_save.to('cpu')
+                    #torch.save(model_to_save.state_dict(), args.output_dir+'pytorch_submodel.bin')
+                    model.to('cpu')
+                    #torch.save(model.state_dict(), args.output_dir+'pytorch_model.bin')
+                    #torch.save(model, args.output_dir+"model-fp.pt")
 
                 output_str = "**************S*************\n" + \
                              "task_name = {}\n".format(task_name) + \

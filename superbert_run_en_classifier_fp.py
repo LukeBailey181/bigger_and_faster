@@ -1590,6 +1590,11 @@ def main():
                         type=str,
                         required=True,
                         help="The output directory where the model predictions and checkpoints will be written.")
+    parser.add_argument("--save_model_flag",
+                        default=0,
+                        type=int,
+                        required=False,
+                        help="Save the model to the output directory.")
     parser.add_argument("--cache_dir",
                         default="",
                         type=str,
@@ -2095,6 +2100,8 @@ def main():
 
                             model.train()
 
+                model.eval()
+
                 if task_name == "mnli":
                     task_name = "mnli-mm"
                     processor = processors[task_name]()
@@ -2130,6 +2137,18 @@ def main():
                 model_to_save = model.module if hasattr(model,
                                                         'module') else model
                 parameter_size = model_to_save.calc_sampled_param_num()
+
+                if hasattr(model, 'module'):
+                    print("There is atrribute module for model!")
+                else:
+                    print("There is no atrribute module for model!")
+
+                if args.save_model_flag != 0:
+                    model_to_save.to('cpu')
+                    torch.save(model_to_save.state_dict(), args.output_dir+'pytorch_submodel.bin')
+                    model.to('cpu')
+                    torch.save(model.state_dict(), args.output_dir+'pytorch_model.bin')
+                    #torch.save(model, args.output_dir+"model-fp.pt")
 
                 output_str = "**************S*************\n" + \
                              "task_name = {}\n".format(task_name) + \

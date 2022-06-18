@@ -1,7 +1,7 @@
 USER=yujichai
 PARTITION=gpu # Partition to submit to, gpu or gpu_test
-PARTITION_TEST=gpu # The test partition to submit to, gpu_test
-RUNTIME=1-00:00 # Runtime in D-HH:MM, minimum of 10 minutes
+PARTITION_TEST=gpu_test # The test partition to submit to, gpu_test
+RUNTIME=0-08:00 # Runtime in D-HH:MM, minimum of 10 minutes
 CPU=4 # number of CPU cores
 GPU=1 # number of GPUs
 MEMORY=128000 # Memory pool for all cores (see also --mem-per-cpu)
