@@ -10,7 +10,7 @@ OP=$1
 
 if [ "$OP" = "view" ]; then
   echo "View job status of $USER"
-  squeue -u yujichai
+  squeue -u $USER
 elif [ "$OP" = "queue" ]; then
   echo "View queue status of $PARTITION"
   showq -o -p $PARTITION
