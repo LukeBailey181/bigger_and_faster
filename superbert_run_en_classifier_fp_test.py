@@ -1824,20 +1824,6 @@ def main():
     logger.info('task_lis: {}'.format(task_lis))
     logger.info('data_dir_lis: {}'.format(data_dir_lis))
 
-    if oncloud:
-        os.environ['DLS_LOCAL_CACHE_PATH'] = "/cache"
-        local_data_dir = os.environ['DLS_LOCAL_CACHE_PATH']
-        assert mox.file.exists(local_data_dir)
-        logging.info("local disk: " + local_data_dir)
-        logging.info("copy data from s3 to local")
-        logging.info(mox.file.list_directory(args.data_url, recursive=True))
-        mox.file.copy_parallel(args.data_url, local_data_dir)
-        logging.info("copy finish...........")
-        args.model = os.path.join(local_data_dir, args.model)
-
-        args.train_url = os.path.join(args.train_url, args.output_dir)
-        args.output_dir = os.path.join(local_data_dir, args.output_dir)
-
     subbert_configs = list()
     subbert_config = dict()
     tokenizer = BertTokenizer.from_pretrained(args.model, do_lower_case=args.do_lower_case)

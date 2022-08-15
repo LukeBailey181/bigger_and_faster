@@ -9,95 +9,94 @@ from torch.utils.data import TensorDataset, DataLoader, RandomSampler, Sequentia
 # note this is NOT the same as what is in model.config as that
 # is the config for the entire supermodel 
 atb_config = {"sample_layer_num": 5, 
- "sample_num_attention_heads": [12, 12, 12, 12, 12], 
- "sample_hidden_size": 528, 
- "sample_intermediate_sizes": [832, 832, 832, 832, 832], 
- "sample_qkv_sizes": [528, 528, 528, 528, 528]}
+    "sample_num_attention_heads": [12, 12, 12, 12, 12], 
+    "sample_hidden_size": 528, 
+    "sample_intermediate_sizes": [832, 832, 832, 832, 832], 
+    "sample_qkv_sizes": [528, 528, 528, 528, 528]}
 
 
 atb_cofig_class = transformer.modeling_super_kd.BertConfig(
-                 30522,
-                 hidden_size=528,
-                 num_hidden_layers=5,
-                 num_attention_heads=12,
-                 intermediate_size=832,
-                 hidden_act="gelu",
-                 hidden_dropout_prob=0.1,
-                 attention_probs_dropout_prob=0.1,
-                 max_position_embeddings=512,
-                 type_vocab_size=2,
-                 initializer_range=0.02,
-                 layer_norm_eps=1e-12)
-                 
+    30522,
+    hidden_size=528,
+    num_hidden_layers=5,
+    num_attention_heads=12,
+    intermediate_size=832,
+    hidden_act="gelu",
+    hidden_dropout_prob=0.1,
+    attention_probs_dropout_prob=0.1,
+    max_position_embeddings=512,
+    type_vocab_size=2,
+    initializer_range=0.02,
+    layer_norm_eps=1e-12)
 
 atb_config_dict = {
-  "attention_probs_dropout_prob": 0.1,
-  "cell": {},
-  "emb_size": 528, #?
-  "finetuning_task": "mnli",
-  "fix_config": {
-    "sample_hidden_size": 528,
-    "sample_intermediate_sizes": [
-      832,
-      832,
-      832,
-      832,
-      832
-    ],
-    "sample_layer_num": 5,
-    "sample_num_attention_heads": [
-      12,
-      12,
-      12,
-      12,
-      12
-    ],
-    "sample_qkv_sizes": [
-      528,
-      528,
-      528,
-      528,
-      528
-    ]
-  },
-  "hidden_act": "gelu",
-  "hidden_dropout_prob": 0.1,
-  "hidden_size": 528,
-  "initializer_range": 0.02,
-  "intermediate_size": 1024,
-  "layer_norm_eps": 1e-12,
-  "max_position_embeddings": 512,
-  "num_attention_heads": 12,
-  "num_hidden_layers": 5,
-  "num_labels": 3,
-  "pre_trained": "",
-  "qkv_size": 528,
-  "structure": [],
-  "training": "",
-  "type_vocab_size": 2,
-  "vocab_size": 30522
+    "attention_probs_dropout_prob": 0.1,
+    "cell": {},
+    "emb_size": 528, #?
+    "finetuning_task": "mnli",
+    "fix_config": {
+        "sample_hidden_size": 528,
+        "sample_intermediate_sizes": [
+        832,
+        832,
+        832,
+        832,
+        832
+        ],
+        "sample_layer_num": 5,
+        "sample_num_attention_heads": [
+        12,
+        12,
+        12,
+        12,
+        12
+        ],
+        "sample_qkv_sizes": [
+        528,
+        528,
+        528,
+        528,
+        528
+        ]
+    },
+    "hidden_act": "gelu",
+    "hidden_dropout_prob": 0.1,
+    "hidden_size": 528,
+    "initializer_range": 0.02,
+    "intermediate_size": 1024,
+    "layer_norm_eps": 1e-12,
+    "max_position_embeddings": 512,
+    "num_attention_heads": 12,
+    "num_hidden_layers": 5,
+    "num_labels": 3,
+    "pre_trained": "",
+    "qkv_size": 528,
+    "structure": [],
+    "training": "",
+    "type_vocab_size": 2,
+    "vocab_size": 30522
 }
 
 
 # function to convert autotinybert config to huggingface config
 def atb_config_to_hf_config(atb_config, num_labels):
-    
+        
     hf_config = {
-      "attention_probs_dropout_prob": 0.1,
-      "gradient_checkpointing": False,
-      "hidden_act": "gelu",
-      "hidden_dropout_prob": 0.1,
-      "initializer_range": 0.02,
-      "layer_norm_eps": 1e-12,
-      "max_position_embeddings": 512,
-      "model_type": "bert",
-      "num_attention_heads": 12,
-      "pad_token_id": 0,
-      "position_embedding_type": "absolute",
-      "transformers_version": "4.3.1",
-      "type_vocab_size": 2,
-      "use_cache": True,
-      "vocab_size": 30522,
+        "attention_probs_dropout_prob": 0.1,
+        "gradient_checkpointing": False,
+        "hidden_act": "gelu",
+        "hidden_dropout_prob": 0.1,
+        "initializer_range": 0.02,
+        "layer_norm_eps": 1e-12,
+        "max_position_embeddings": 512,
+        "model_type": "bert",
+        "num_attention_heads": 12,
+        "pad_token_id": 0,
+        "position_embedding_type": "absolute",
+        "transformers_version": "4.3.1",
+        "type_vocab_size": 2,
+        "use_cache": True,
+        "vocab_size": 30522,
     }
     
     hf_config["hidden_size"] = atb_config["sample_hidden_size"]

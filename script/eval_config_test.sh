@@ -16,7 +16,7 @@ fi
 
 # Evaluation of candidates
 python ../superbert_run_en_classifier_$1_test.py --data_dir $DATA_DIR \
-    --model $MODEL --model_test $MODEL_TEST --task_name "mnli" --output_dir $OUPUT_DIR --save_model_flag 1\
+    --model $MODEL --model_test $MODEL_TEST --task_name "mnli" --output_dir $OUPUT_DIR --save_model_flag 0\
     --num_train_epochs $EPOCH --do_lower_case \
     --arches_file $CAND_FILE
 
