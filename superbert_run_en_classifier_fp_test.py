@@ -1044,7 +1044,7 @@ def do_eval_(model, task_name, eval_dataloader,
         with torch.no_grad():
             input_ids, input_mask, segment_ids, label_ids, seq_lengths = batch_
             start = datetime.now()
-            logits = model(input_ids, input_mask)["logits"]
+            logits = model(input_ids, input_mask, token_type_ids=segment_ids)["logits"]
             infer_times.append((datetime.now() - start).microseconds / 1000)
         # create eval loss and other metric required by the task
         if output_mode == "classification":
@@ -1647,6 +1647,11 @@ def main():
                         type=int,
                         required=False,
                         help="Save the model to the output directory.")
+    parser.add_argument("--atb_model_flag",
+                        default=0,
+                        type=int,
+                        required=False,
+                        help="If the model is based on AutoTinyBert.")
     parser.add_argument("--cache_dir",
                         default="",
                         type=str,
@@ -1906,6 +1911,10 @@ def main():
                 config.num_labels = num_labels
                 config.finetuning_task = task_name
 
+                logger.info("***** Meta Info *****")
+                logger.info("Task Name: " + task_name)
+                logger.info("Output Mode: " + output_mode)
+
                 if output_mode != 'qa_classification':
                     train_examples = processor.get_train_examples(args.data_dir)
                 else:
@@ -1978,13 +1987,12 @@ def main():
                 loss_mse = MSELoss()
                 loss_fct = CrossEntropyLoss()
 
-                '''
-                if output_mode == 'qa_classification':
-                    model = SuperBertForQuestionAnswering.from_pretrained(args.model, config)
+                if args.atb_model_flag == 1:
+                    logger.info(">>> Loading AutoTinyBert model ...")
+                    model = torch.load(args.model_test)
                 else:
-                    model = SuperBertForSequenceClassification.from_pretrained(args.model, config)
-                '''
-                model = load_testing_model(model_path=args.model_test)
+                    logger.info(">>> Loading HuggingFace model ...")
+                    model = load_testing_model(model_path=args.model_test)
                 model.to(device)
 
                 '''
@@ -2034,9 +2042,14 @@ def main():
                     eval_dataloader = DataLoader(eval_data, sampler=eval_sampler,
                                                  batch_size=args.eval_batch_size)
 
-                    result = do_eval_(model, task_name, eval_dataloader,
-                                     device, output_mode, eval_labels,
-                                     num_labels)
+                    if args.atb_model_flag == 1:
+                        result = do_eval(model, task_name, eval_dataloader,
+                                        device, output_mode, eval_labels,
+                                        num_labels, subbert_config)
+                    else:
+                        result = do_eval_(model, task_name, eval_dataloader,
+                                        device, output_mode, eval_labels,
+                                        num_labels)
 
                     result['global_step'] = global_step
 

@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH -p gpu_test  # Partition to submit to
-#SBATCH -t 0-08:00         # Runtime in D-HH:MM, minimum of 10 minutes
-#SBATCH -c 4              # Number of cores (-c)
+#SBATCH -p gpu  # Partition to submit to
+#SBATCH -t 0-01:00         # Runtime in D-HH:MM, minimum of 10 minutes
+#SBATCH -c 8              # Number of cores (-c)
 #SBATCH --gres=gpu:1                # Number of cores (-c)
 #SBATCH --mem=128000           # Memory pool for all cores (see also --mem-per-cpu)
 #SBATCH -o ./logs/job_log_%j.out  # File to which STDOUT will be written, %j inserts jobid
