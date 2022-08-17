@@ -1995,6 +1995,7 @@ def main():
                 elif model_type == "hf":
                     logger.info(">>> Loading HuggingFace model ...")
                     model = load_testing_model(model_path=args.model_test)
+                    
                 model.to(device)
 
                 '''
@@ -2044,11 +2045,32 @@ def main():
                     eval_dataloader = DataLoader(eval_data, sampler=eval_sampler,
                                                  batch_size=args.eval_batch_size)
 
+                    model.eval()
                     if model_type == "atb":
+                        logger.info('Before quantizing model @ last epoch')
+                        result = do_eval(model, task_name, eval_dataloader,
+                                        device, output_mode, eval_labels,
+                                        num_labels, subbert_config)
+                        
+                        logger.info('After quantizing model @ last epoch')
+                        model.to('cpu')
+                        quantize_model(model)
+                        model.to(device)
+                        
                         result = do_eval(model, task_name, eval_dataloader,
                                         device, output_mode, eval_labels,
                                         num_labels, subbert_config)
                     elif model_type == "hf":
+                        logger.info('Before quantizing model @ last epoch')
+                        result = do_eval_(model, task_name, eval_dataloader,
+                                        device, output_mode, eval_labels,
+                                        num_labels)
+                        
+                        logger.info('After quantizing model @ last epoch')
+                        model.to('cpu')
+                        quantize_model(model)
+                        model.to(device)
+                        
                         result = do_eval_(model, task_name, eval_dataloader,
                                         device, output_mode, eval_labels,
                                         num_labels)
@@ -2077,7 +2099,7 @@ def main():
                     #torch.save(model_to_save.state_dict(), args.output_dir+'pytorch_submodel.bin')
                     model.to('cpu')
                     #torch.save(model.state_dict(), args.output_dir+'pytorch_model.bin')
-                    torch.save(model, args.output_dir+"model-fq-"+model_type+".pt")
+                    torch.save(model, args.output_dir+"model-ptq-"+model_type+".pt")
 
                 output_str = "**************S*************\n" + \
                              "task_name = {}\n".format(task_name) + \
