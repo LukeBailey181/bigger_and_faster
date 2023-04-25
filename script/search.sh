@@ -7,7 +7,7 @@ CKPT_PATH="${PROJECT_ROOT}/conf_datasets/lat_predictor_quant.pt"
 MODEL="${PROJECT_ROOT}/model/SUPER-KD-S1/output/superbert/checkpoints/superbert_epoch_4_lr_0.0001_bsz_12_grad_accu_1_512_gpu_1/epoch_3"
 SEARCH_NAME="kd_${TYPE}_${LATENCY_CONSTRAINT}"
 CAND_FILE="${PROJECT_ROOT}/cands/${SEARCH_NAME}.cands"
-DATA_DIR="/n/acc_lab/glue/MNLI"
+DATA_DIR="/n/holylfs05/LABS/acc_lab/Lab/glue/MNLI/processed/"
 
 if [ "$TYPE" = "fp" ]; then
 CKPT_PATH="${PROJECT_ROOT}/conf_datasets/lat_predictor.pt"

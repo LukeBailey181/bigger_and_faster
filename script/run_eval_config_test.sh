@@ -13,7 +13,7 @@ eval "$(conda shell.bash hook)"
 conda activate baf
 perl -e 'print "Job starting ...\n"'
 TYPE=ptq
-MODEL_TYPE_ID=0
-SAVE_MODEL_FLAG=1
+MODEL_TYPE_ID=1
+SAVE_MODEL_FLAG=0
 echo "Running ${TYPE}"
 bash eval_config_test.sh $TYPE $MODEL_TYPE_ID $SAVE_MODEL_FLAG

@@ -45,6 +45,7 @@ from torch.nn import CrossEntropyLoss, MSELoss
 from transformer.modeling_super_kd import SuperBertForSequenceClassification, SuperBertForQuestionAnswering, BertConfig
 from transformer.tokenization import BertTokenizer, BasicTokenizer, whitespace_tokenize
 from transformer.optimization import BertAdam
+from transformers import AutoModelForSequenceClassification
 
 from quantize_utils import quantize_model
 from convert_testing_quant import load_testing_model
@@ -1794,7 +1795,7 @@ def main():
     corr_tasks = ["sts-b"]
     mcc_tasks = ["cola"]
     qa_tasks = ["squad1", "squad2"]
-    model_types = ["atb", "hf"]
+    model_types = ["atb", "atb2hf" ,"hf"]
     model_type = model_types[args.model_type_id]
 
     # Prepare devices
@@ -1992,9 +1993,12 @@ def main():
                 if model_type == "atb":
                     logger.info(">>> Loading AutoTinyBert model ...")
                     model = torch.load(args.model_test)
+                elif model_type == "atb2hf":
+                    logger.info(">>> Loading Converted HuggingFace model ...")
+                    model = load_testing_model(model_path=args.model_test)
                 elif model_type == "hf":
                     logger.info(">>> Loading HuggingFace model ...")
-                    model = load_testing_model(model_path=args.model_test)
+                    model = AutoModelForSequenceClassification.from_pretrained(args.model_test)
                 model.to(device)
 
                 '''
@@ -2048,7 +2052,7 @@ def main():
                         result = do_eval(model, task_name, eval_dataloader,
                                         device, output_mode, eval_labels,
                                         num_labels, subbert_config)
-                    elif model_type == "hf":
+                    elif model_type == "hf" or model_type == "atb2hf":
                         result = do_eval_(model, task_name, eval_dataloader,
                                         device, output_mode, eval_labels,
                                         num_labels)

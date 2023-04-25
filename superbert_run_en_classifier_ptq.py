@@ -47,6 +47,7 @@ from transformer.tokenization import BertTokenizer, BasicTokenizer, whitespace_t
 from transformer.optimization import BertAdam
 
 from quantize_utils import quantize_model
+from convert_testing_quant import convert_atb_to_hf_model
 
 
 csv.field_size_limit(sys.maxsize)
@@ -1044,6 +1045,52 @@ def do_eval(model, task_name, eval_dataloader,
             input_ids, input_mask, segment_ids, label_ids, seq_lengths = batch_
             start = datetime.now()
             logits = model(input_ids, subbert_config, input_mask, segment_ids)
+            infer_times.append((datetime.now() - start).microseconds / 1000)
+        # create eval loss and other metric required by the task
+        if output_mode == "classification":
+            loss_fct = CrossEntropyLoss()
+            tmp_eval_loss = loss_fct(logits.view(-1, num_labels), label_ids.view(-1))
+        elif output_mode == "regression":
+            loss_fct = MSELoss()
+            tmp_eval_loss = loss_fct(logits.view(-1), label_ids.view(-1))
+
+        eval_loss += tmp_eval_loss.mean().item()
+        nb_eval_steps += 1
+        if len(preds) == 0:
+            preds.append(logits.detach().cpu().numpy())
+        else:
+            preds[0] = np.append(
+                preds[0], logits.detach().cpu().numpy(), axis=0)
+
+    eval_loss = eval_loss / nb_eval_steps
+
+    preds = preds[0]
+    if output_mode == "classification":
+        preds = np.argmax(preds, axis=1)
+    elif output_mode == "regression":
+        preds = np.squeeze(preds)
+    result = compute_metrics(task_name, preds, eval_labels.numpy())
+    result['eval_loss'] = eval_loss
+    result['infer_cnt'] = len(infer_times)
+    result['infer_time'] = sum(infer_times) / len(infer_times)
+    logger.info("******** Eval results ********")
+    for key in sorted(result.keys()):
+        logger.info(" dev: %s = %s", key, str(result[key]))
+    return result
+
+
+def do_eval_(model, task_name, eval_dataloader,
+            device, output_mode, eval_labels, num_labels):
+    eval_loss = 0
+    nb_eval_steps = 0
+    preds = []
+    infer_times = []
+    for batch_ in tqdm(eval_dataloader, desc="Evaluating"):
+        batch_ = tuple(t.to(device) for t in batch_)
+        with torch.no_grad():
+            input_ids, input_mask, segment_ids, label_ids, seq_lengths = batch_
+            start = datetime.now()
+            logits = model(input_ids, input_mask, token_type_ids=segment_ids)["logits"]
             infer_times.append((datetime.now() - start).microseconds / 1000)
         # create eval loss and other metric required by the task
         if output_mode == "classification":
@@ -2125,12 +2172,19 @@ def main():
                     
                     logger.info('After quantizing model @ last epoch')
                     model.to('cpu')
+
                     quantize_model(model)
                     model.to(device)
-                    
                     result = do_eval(model, task_name, eval_dataloader,
                                      device, output_mode, eval_labels,
                                      num_labels, subbert_config)
+
+                    #model_ptq = convert_atb_to_hf_model(model, subbert_config)
+                    #model_ptq = torch.quantization.quantize_dynamic(model_ptq, {torch.nn.Linear}, dtype=torch.qint8)
+                    #model_ptq.to('cpu')
+                    #result = do_eval_(model_ptq, task_name, eval_dataloader,
+                    #                 'cpu', output_mode, eval_labels,
+                    #                 num_labels)
 
                     result['global_step'] = global_step
                     best_dev_acc = result['acc']
@@ -2147,7 +2201,8 @@ def main():
                 parameter_size = model_to_save.calc_sampled_param_num()
 
                 if args.save_model_flag != 0:
-                    torch.save(model.state_dict(), args.output_dir)
+                    model.to('cpu')
+                    torch.save(model.state_dict(), args.output_dir+"model-ptq.pt")
 
                 output_str = "**************S*************\n" + \
                              "task_name = {}\n".format(task_name) + \

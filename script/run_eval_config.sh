@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -p gpu_test  # Partition to submit to
+#SBATCH -p gpu  # Partition to submit to
 #SBATCH -t 0-08:00         # Runtime in D-HH:MM, minimum of 10 minutes
 #SBATCH -c 4              # Number of cores (-c)
 #SBATCH --gres=gpu:1                # Number of cores (-c)

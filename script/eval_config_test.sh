@@ -5,7 +5,8 @@ SAVE_MODEL_FLAG=$3
 
 CKPT_PATH="${PROJECT_ROOT}/conf_datasets/lat_predictor_quant.pt"
 MODEL="${PROJECT_ROOT}/model/SUPER-KD-S1/output/superbert/checkpoints/superbert_epoch_4_lr_0.0001_bsz_12_grad_accu_1_512_gpu_1/epoch_3"
-MODEL_TEST="${PROJECT_ROOT}/output/test_fp/model-fp-20ms-v5.pt"
+#MODEL_TEST="${PROJECT_ROOT}/output/test_fp/model-fp-20ms-v5.pt"
+MODEL_TEST="google/bert_uncased_L-4_H-128_A-2"
 CAND_FILE="${PROJECT_ROOT}/cands/eval_test_${TYPE}.cands"
 DATA_DIR="/n/holylfs05/LABS/acc_lab/Lab/glue/MNLI/processed/"
 OUPUT_DIR="${PROJECT_ROOT}/output/test_${TYPE}/"

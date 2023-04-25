@@ -1033,8 +1033,8 @@ def result_to_file(result, file_name):
             writer.write("%s = %s\n" % (key, str(result[key])))
 
 
-def do_eval_(model, task_name, eval_dataloader,
-            device, output_mode, eval_labels, num_labels):
+def do_eval(model, task_name, eval_dataloader,
+            device, output_mode, eval_labels, num_labels, subbert_config):
     eval_loss = 0
     nb_eval_steps = 0
     preds = []
@@ -1044,7 +1044,7 @@ def do_eval_(model, task_name, eval_dataloader,
         with torch.no_grad():
             input_ids, input_mask, segment_ids, label_ids, seq_lengths = batch_
             start = datetime.now()
-            logits = model(input_ids, input_mask, token_type_ids=segment_ids)["logits"]
+            logits = model(input_ids, subbert_config, input_mask, segment_ids)
             infer_times.append((datetime.now() - start).microseconds / 1000)
         # create eval loss and other metric required by the task
         if output_mode == "classification":
@@ -1079,8 +1079,8 @@ def do_eval_(model, task_name, eval_dataloader,
     return result
 
 
-def do_eval(model, task_name, eval_dataloader,
-            device, output_mode, eval_labels, num_labels, subbert_config):
+def do_eval_(model, task_name, eval_dataloader,
+            device, output_mode, eval_labels, num_labels):
     eval_loss = 0
     nb_eval_steps = 0
     preds = []
@@ -1090,7 +1090,7 @@ def do_eval(model, task_name, eval_dataloader,
         with torch.no_grad():
             input_ids, input_mask, segment_ids, label_ids, seq_lengths = batch_
             start = datetime.now()
-            logits = model(input_ids, subbert_config, input_mask, segment_ids)
+            logits = model(input_ids, input_mask, token_type_ids=segment_ids)["logits"]
             infer_times.append((datetime.now() - start).microseconds / 1000)
         # create eval loss and other metric required by the task
         if output_mode == "classification":
@@ -2068,11 +2068,12 @@ def main():
                         
                         logger.info('After quantizing model @ last epoch')
                         model.to('cpu')
-                        quantize_model(model)
-                        model.to(device)
+                        #quantize_model(model)
+                        model = torch.quantization.quantize_dynamic(model, {torch.nn.Linear}, dtype=torch.qint8)
+                        model.to('cpu')
                         
                         result = do_eval_(model, task_name, eval_dataloader,
-                                        device, output_mode, eval_labels,
+                                        'cpu', output_mode, eval_labels,
                                         num_labels)
 
                     result['global_step'] = global_step
