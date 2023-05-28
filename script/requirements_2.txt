@@ -1,0 +1,13 @@
+apex==0.9.10dev
+boto3==1.20.7
+botocore==1.23.7
+gensim==4.1.2
+numpy==1.21.2
+onnxruntime==1.11.0
+requests==2.26.0
+#scikit_learn==1.1.1
+scipy==1.7.2
+tensorboardX==2.5.1
+torch==1.10.0
+tqdm==4.62.3
+transformers==4.12.4

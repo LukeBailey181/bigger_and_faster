@@ -1,0 +1,780 @@
+Job starting ...
+/rte/
+Running ptq @ 10ms
+Namespace(arch_perfs_file='', candidate_file='/n/home00/lbailey/bigger_and_faster/cands/kd_ptq_10.cands', ckpt_path='/n/home00/lbailey/bigger_and_faster/conf_datasets/lat_predictor_quant.pt', feature_dim=4, feature_norm=[564, 5, 1024, 564], gen_size=10, head_num_space=[1, 12], hidden_dim=2000, hidden_layer_num=3, hidden_size_space=[144, 528], intermediate_size_space=[128, 1024], lat_norm=200, latency_constraint=10.0, layer_num_space=[1, 5], method='Candidate', model='KD', output_file='cands/archs.txt', qkv_size_space=[144, 528])
+Size of candidates: 999
+Initial cand gen done
+Namespace(arch_perfs_file='', candidate_file='/n/home00/lbailey/bigger_and_faster/cands/kd_ptq_10.cands', ckpt_path='/n/home00/lbailey/bigger_and_faster/conf_datasets/lat_predictor_quant.pt', feature_dim=4, feature_norm=[564, 5, 1024, 564], gen_size=10, head_num_space=[1, 12], hidden_dim=2000, hidden_layer_num=3, hidden_size_space=[144, 528], intermediate_size_space=[128, 1024], lat_norm=200, latency_constraint=10.0, layer_num_space=[1, 5], method='Fast', model='KD', output_file='../cands/1st_generation_kd_ptq_10.cands', qkv_size_space=[144, 528])
+Size of candidates: 999
+Size of fast candidates: 98
+Initial search done
+05/28/2023 17:44:53 - INFO - __main__ -   device: cpu n_gpu: 0
+05/28/2023 17:44:53 - INFO - __main__ -   task_lis: ['rte']
+05/28/2023 17:44:53 - INFO - __main__ -   data_dir_lis: ['/rte/']
+05/28/2023 17:44:53 - INFO - transformer.tokenization -   loading vocabulary file /n/home00/lbailey/bigger_and_faster/model/SUPER-KD-S1/output/superbert/checkpoints/superbert_epoch_4_lr_0.0001_bsz_12_grad_accu_1_512_gpu_1/epoch_3/vocab.txt
+05/28/2023 17:44:53 - INFO - transformer.modeling_super_kd -   Model config {
+  "attention_probs_dropout_prob": 0.1,
+  "cell": {},
+  "emb_size": 564,
+  "fix_config": {
+    "sample_hidden_size": 564,
+    "sample_intermediate_sizes": [
+      1024,
+      1024,
+      1024,
+      1024,
+      1024
+    ],
+    "sample_layer_num": 5,
+    "sample_num_attention_heads": [
+      12,
+      12,
+      12,
+      12,
+      12
+    ],
+    "sample_qkv_sizes": [
+      528,
+      528,
+      528,
+      528,
+      528
+    ]
+  },
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 564,
+  "initializer_range": 0.02,
+  "intermediate_size": 1024,
+  "layer_norm_eps": 1e-12,
+  "max_position_embeddings": 512,
+  "num_attention_heads": 12,
+  "num_hidden_layers": 5,
+  "pre_trained": "",
+  "qkv_size": 528,
+  "structure": [],
+  "training": "",
+  "type_vocab_size": 2,
+  "vocab_size": 30522
+}
+
+05/28/2023 17:44:53 - INFO - __main__ -   subbert_configs: [{'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 360, 'sample_intermediate_sizes': [672, 672, 672], 'sample_qkv_sizes': [360, 360, 360]}, {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 432, 'sample_intermediate_sizes': [704, 704, 704], 'sample_qkv_sizes': [432, 432, 432]}, {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 384, 'sample_intermediate_sizes': [704, 704, 704], 'sample_qkv_sizes': [384, 384, 384]}, {'sample_layer_num': 5, 'sample_num_attention_heads': [12, 12, 12, 12, 12], 'sample_hidden_size': 216, 'sample_intermediate_sizes': [384, 384, 384, 384, 384], 'sample_qkv_sizes': [216, 216, 216, 216, 216]}, {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 372, 'sample_intermediate_sizes': [672, 672, 672], 'sample_qkv_sizes': [372, 372, 372]}, {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 456, 'sample_intermediate_sizes': [800, 800, 800], 'sample_qkv_sizes': [456, 456, 456]}, {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 408, 'sample_intermediate_sizes': [672, 672, 672], 'sample_qkv_sizes': [408, 408, 408]}, {'sample_layer_num': 5, 'sample_num_attention_heads': [12, 12, 12, 12, 12], 'sample_hidden_size': 192, 'sample_intermediate_sizes': [320, 320, 320, 320, 320], 'sample_qkv_sizes': [192, 192, 192, 192, 192]}, {'sample_layer_num': 4, 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_hidden_size': 264, 'sample_intermediate_sizes': [448, 448, 448, 448], 'sample_qkv_sizes': [264, 264, 264, 264]}, {'sample_layer_num': 4, 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_hidden_size': 300, 'sample_intermediate_sizes': [480, 480, 480, 480], 'sample_qkv_sizes': [300, 300, 300, 300]}]
+05/28/2023 17:44:53 - INFO - __main__ -   The current subbert_config is: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 360, 'sample_intermediate_sizes': [672, 672, 672], 'sample_qkv_sizes': [360, 360, 360]}
+05/28/2023 17:44:53 - INFO - __main__ -   The args: Namespace(arches_file='../cands/1st_generation_kd_ptq_10.cands', cache_dir='', data_dir='/rte/', data_url='', do_lower_case=True, doc_stride=128, eval_batch_size=32, eval_step=10, gradient_accumulation_steps=1, init_method='', learning_rate=2e-05, max_answer_length=30, max_query_length=64, max_seq_length=128, model='/n/home00/lbailey/bigger_and_faster/model/SUPER-KD-S1/output/superbert/checkpoints/superbert_epoch_4_lr_0.0001_bsz_12_grad_accu_1_512_gpu_1/epoch_3', n_best_size=20, no_cuda=False, null_score_diff_threshold=0.0, num_train_epochs=1.0, output_dir='../output/kd_ptq_10/', predict_file='SQuAD2.0/dev-v2.0.json', save_model_flag=0, seed='42', super_model='MLM', task_name='rte', train_batch_size=32, train_file='SQuAD2.0/train-v2.0.json', train_url='', verbose_logging=False, version_2_with_negative=0, warmup_proportion=0.1, weight_decay=0.0001)
+Traceback (most recent call last):
+  File "../superbert_run_en_classifier_ptq.py", line 2231, in <module>
+    main()
+  File "../superbert_run_en_classifier_ptq.py", line 1919, in main
+    train_examples = processor.get_train_examples(args.data_dir)
+  File "../superbert_run_en_classifier_ptq.py", line 461, in get_train_examples
+    self._read_tsv(os.path.join(data_dir, "train.tsv")), "train")
+  File "../superbert_run_en_classifier_ptq.py", line 182, in _read_tsv
+    with open(input_file, "r", encoding="utf-8") as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/rte/train.tsv'
+Initial eval done
+Initialization Pass Done!
+>>> Starting Evaluation of EE Iteration 1 ...
+05/28/2023 17:44:55 - INFO - __main__ -   device: cpu n_gpu: 0
+05/28/2023 17:44:55 - INFO - __main__ -   task_lis: ['rte']
+05/28/2023 17:44:55 - INFO - __main__ -   data_dir_lis: ['/rte/']
+05/28/2023 17:44:55 - INFO - transformer.tokenization -   loading vocabulary file /n/home00/lbailey/bigger_and_faster/model/SUPER-KD-S1/output/superbert/checkpoints/superbert_epoch_4_lr_0.0001_bsz_12_grad_accu_1_512_gpu_1/epoch_3/vocab.txt
+05/28/2023 17:44:55 - INFO - transformer.modeling_super_kd -   Model config {
+  "attention_probs_dropout_prob": 0.1,
+  "cell": {},
+  "emb_size": 564,
+  "fix_config": {
+    "sample_hidden_size": 564,
+    "sample_intermediate_sizes": [
+      1024,
+      1024,
+      1024,
+      1024,
+      1024
+    ],
+    "sample_layer_num": 5,
+    "sample_num_attention_heads": [
+      12,
+      12,
+      12,
+      12,
+      12
+    ],
+    "sample_qkv_sizes": [
+      528,
+      528,
+      528,
+      528,
+      528
+    ]
+  },
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 564,
+  "initializer_range": 0.02,
+  "intermediate_size": 1024,
+  "layer_norm_eps": 1e-12,
+  "max_position_embeddings": 512,
+  "num_attention_heads": 12,
+  "num_hidden_layers": 5,
+  "pre_trained": "",
+  "qkv_size": 528,
+  "structure": [],
+  "training": "",
+  "type_vocab_size": 2,
+  "vocab_size": 30522
+}
+
+05/28/2023 17:44:55 - INFO - __main__ -   subbert_configs: [{'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 468, 'sample_intermediate_sizes': [480, 480, 480], 'sample_qkv_sizes': [468, 468, 468]}, {'sample_layer_num': 3, 'sample_hidden_size': 432, 'sample_intermediate_sizes': [576, 576, 576], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [432, 432, 432]}, {'sample_layer_num': 3, 'sample_hidden_size': 468, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [468, 468, 468]}, {'sample_layer_num': 4, 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_hidden_size': 240, 'sample_intermediate_sizes': [672, 672, 672, 672], 'sample_qkv_sizes': [240, 240, 240, 240]}, {'sample_layer_num': 5, 'sample_num_attention_heads': [12, 12, 12, 12, 12], 'sample_hidden_size': 180, 'sample_intermediate_sizes': [384, 384, 384, 384, 384], 'sample_qkv_sizes': [180, 180, 180, 180, 180]}, {'sample_layer_num': 4, 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_hidden_size': 372, 'sample_intermediate_sizes': [160, 160, 160, 160], 'sample_qkv_sizes': [372, 372, 372, 372]}, {'sample_layer_num': 3, 'sample_hidden_size': 528, 'sample_intermediate_sizes': [288, 288, 288], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [528, 528, 528]}, {'sample_layer_num': 3, 'sample_hidden_size': 396, 'sample_intermediate_sizes': [768, 768, 768], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [396, 396, 396]}, {'sample_layer_num': 5, 'sample_num_attention_heads': [12, 12, 12, 12, 12], 'sample_hidden_size': 216, 'sample_intermediate_sizes': [416, 416, 416, 416, 416], 'sample_qkv_sizes': [216, 216, 216, 216, 216]}, {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 408, 'sample_intermediate_sizes': [608, 608, 608], 'sample_qkv_sizes': [408, 408, 408]}, {'sample_layer_num': 4, 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_hidden_size': 276, 'sample_intermediate_sizes': [1024, 1024, 1024, 1024], 'sample_qkv_sizes': [276, 276, 276, 276]}, {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [864, 864, 864], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}, {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 420, 'sample_intermediate_sizes': [384, 384, 384], 'sample_qkv_sizes': [420, 420, 420]}, {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [1024, 1024, 1024], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}, {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 444, 'sample_intermediate_sizes': [352, 352, 352], 'sample_qkv_sizes': [444, 444, 444]}, {'sample_layer_num': 3, 'sample_hidden_size': 372, 'sample_intermediate_sizes': [640, 640, 640], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [372, 372, 372]}, {'sample_layer_num': 4, 'sample_hidden_size': 336, 'sample_intermediate_sizes': [576, 576, 576, 576], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [336, 336, 336, 336]}, {'sample_layer_num': 4, 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_hidden_size': 348, 'sample_intermediate_sizes': [224, 224, 224, 224], 'sample_qkv_sizes': [348, 348, 348, 348]}, {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [544, 544, 544, 544], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}, {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [416, 416, 416, 416], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}, {'sample_layer_num': 3, 'sample_hidden_size': 456, 'sample_intermediate_sizes': [864, 864, 864], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [456, 456, 456]}, {'sample_layer_num': 4, 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_hidden_size': 264, 'sample_intermediate_sizes': [288, 288, 288, 288], 'sample_qkv_sizes': [264, 264, 264, 264]}, {'sample_layer_num': 3, 'sample_hidden_size': 468, 'sample_intermediate_sizes': [192, 192, 192], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [468, 468, 468]}, {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 480, 'sample_intermediate_sizes': [320, 320, 320], 'sample_qkv_sizes': [480, 480, 480]}, {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 360, 'sample_intermediate_sizes': [672, 672, 672], 'sample_qkv_sizes': [360, 360, 360]}]
+05/28/2023 17:44:55 - INFO - __main__ -   The current subbert_config is: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 468, 'sample_intermediate_sizes': [480, 480, 480], 'sample_qkv_sizes': [468, 468, 468]}
+05/28/2023 17:44:55 - INFO - __main__ -   The args: Namespace(arches_file='../cands/1st_generation_kd_ptq_10.evo.cands', cache_dir='', data_dir='/rte/', data_url='', do_lower_case=True, doc_stride=128, eval_batch_size=32, eval_step=10, gradient_accumulation_steps=1, init_method='', learning_rate=2e-05, max_answer_length=30, max_query_length=64, max_seq_length=128, model='/n/home00/lbailey/bigger_and_faster/model/SUPER-KD-S1/output/superbert/checkpoints/superbert_epoch_4_lr_0.0001_bsz_12_grad_accu_1_512_gpu_1/epoch_3', n_best_size=20, no_cuda=False, null_score_diff_threshold=0.0, num_train_epochs=1.0, output_dir='../output/kd_ptq_10/', predict_file='SQuAD2.0/dev-v2.0.json', save_model_flag=0, seed='42', super_model='MLM', task_name='rte', train_batch_size=32, train_file='SQuAD2.0/train-v2.0.json', train_url='', verbose_logging=False, version_2_with_negative=0, warmup_proportion=0.1, weight_decay=0.0001)
+Traceback (most recent call last):
+  File "../superbert_run_en_classifier_ptq.py", line 2231, in <module>
+    main()
+  File "../superbert_run_en_classifier_ptq.py", line 1919, in main
+    train_examples = processor.get_train_examples(args.data_dir)
+  File "../superbert_run_en_classifier_ptq.py", line 461, in get_train_examples
+    self._read_tsv(os.path.join(data_dir, "train.tsv")), "train")
+  File "../superbert_run_en_classifier_ptq.py", line 182, in _read_tsv
+    with open(input_file, "r", encoding="utf-8") as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/rte/train.tsv'
+>>> Starting Search of EE Iteration 1 ...
+Namespace(arch_perfs_file='../output/kd_ptq_10/subbert.results', candidate_file='/n/home00/lbailey/bigger_and_faster/cands/kd_ptq_10.cands', ckpt_path='/n/home00/lbailey/bigger_and_faster/conf_datasets/lat_predictor_quant.pt', feature_dim=4, feature_norm=[564, 5, 1024, 564], gen_size=10, head_num_space=[1, 12], hidden_dim=2000, hidden_layer_num=3, hidden_size_space=[144, 528], intermediate_size_space=[128, 1024], lat_norm=200, latency_constraint=10.0, layer_num_space=[1, 5], method='Evolved', model='KD', output_file='../cands/1st_generation_kd_ptq_10.evo.cands', qkv_size_space=[144, 528])
+Size of candidates: 999
+Size of fast candidates: 98
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [352, 352, 352, 352], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [352, 352, 352, 352], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+new_arch_latency: 8.544054627418518
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [352, 352, 352, 352], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [352, 352, 352, 352], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+new_arch_latency: 8.544054627418518
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [352, 352, 352, 352], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 228, 'sample_intermediate_sizes': [320, 320, 320, 320], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [228, 228, 228, 228]}
+new_arch_latency: 8.274456858634949
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [352, 352, 352, 352], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [352, 352, 352, 352], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+new_arch_latency: 8.544054627418518
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [352, 352, 352, 352], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 228, 'sample_intermediate_sizes': [320, 320, 320, 320], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [228, 228, 228, 228]}
+new_arch_latency: 8.274456858634949
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [352, 352, 352, 352], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [352, 352, 352, 352], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+new_arch_latency: 8.544054627418518
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [352, 352, 352, 352], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [416, 416, 416, 416], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+new_arch_latency: 8.710825443267822
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 528, 'sample_intermediate_sizes': [288, 288, 288], 'sample_qkv_sizes': [528, 528, 528]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 528, 'sample_intermediate_sizes': [288, 288, 288], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [528, 528, 528]}
+new_arch_latency: 10.065053403377533
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 456, 'sample_intermediate_sizes': [192, 192, 192], 'sample_qkv_sizes': [456, 456, 456]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 456, 'sample_intermediate_sizes': [256, 256, 256], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [456, 456, 456]}
+new_arch_latency: 8.84869247674942
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 468, 'sample_intermediate_sizes': [960, 960, 960], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [468, 468, 468]}
+new_arch_latency: 10.587835311889648
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 2, 'sample_hidden_size': 468, 'sample_intermediate_sizes': [896, 896], 'sample_num_attention_heads': [12, 12], 'sample_qkv_sizes': [468, 468]}
+new_arch_latency: 7.3979452252388
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.625799000263214
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 2, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [832, 832], 'sample_num_attention_heads': [12, 12], 'sample_qkv_sizes': [480, 480]}
+new_arch_latency: 7.400171458721161
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 468, 'sample_intermediate_sizes': [864, 864, 864], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [468, 468, 468]}
+new_arch_latency: 10.365137457847595
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 2, 'sample_hidden_size': 492, 'sample_intermediate_sizes': [928, 928], 'sample_num_attention_heads': [12, 12], 'sample_qkv_sizes': [492, 492]}
+new_arch_latency: 7.706719636917114
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.625799000263214
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [928, 928, 928], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.701093077659607
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.625799000263214
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.625799000263214
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 492, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [492, 492, 492]}
+new_arch_latency: 10.853561758995056
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [384, 384, 384, 384], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [384, 384, 384, 384], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+new_arch_latency: 8.626770973205566
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [384, 384, 384, 384], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [384, 384, 384, 384], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}
+new_arch_latency: 8.843067288398743
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [384, 384, 384, 384], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [384, 384, 384, 384], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+new_arch_latency: 8.626770973205566
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [384, 384, 384, 384], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [320, 320, 320, 320], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+new_arch_latency: 8.471819758415222
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [384, 384, 384, 384], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 228, 'sample_intermediate_sizes': [384, 384, 384, 384], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [228, 228, 228, 228]}
+new_arch_latency: 8.413165807723999
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [384, 384, 384, 384], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 228, 'sample_intermediate_sizes': [448, 448, 448, 448], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [228, 228, 228, 228]}
+new_arch_latency: 8.579893410205841
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 468, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [468, 468, 468]}
+new_arch_latency: 10.428421199321747
+old arch: {'sample_layer_num': 4, 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_hidden_size': 240, 'sample_intermediate_sizes': [384, 384, 384, 384], 'sample_qkv_sizes': [240, 240, 240, 240]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [416, 416, 416, 416], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+new_arch_latency: 8.710825443267822
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 456, 'sample_intermediate_sizes': [192, 192, 192], 'sample_qkv_sizes': [456, 456, 456]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 456, 'sample_intermediate_sizes': [160, 160, 160], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [456, 456, 456]}
+new_arch_latency: 8.705925941467285
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 456, 'sample_intermediate_sizes': [192, 192, 192], 'sample_qkv_sizes': [456, 456, 456]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 456, 'sample_intermediate_sizes': [192, 192, 192], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [456, 456, 456]}
+new_arch_latency: 8.74694436788559
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 456, 'sample_intermediate_sizes': [192, 192, 192], 'sample_qkv_sizes': [456, 456, 456]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 456, 'sample_intermediate_sizes': [192, 192, 192], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [456, 456, 456]}
+new_arch_latency: 8.74694436788559
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 456, 'sample_intermediate_sizes': [192, 192, 192], 'sample_qkv_sizes': [456, 456, 456]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 456, 'sample_intermediate_sizes': [256, 256, 256], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [456, 456, 456]}
+new_arch_latency: 8.84869247674942
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [448, 448, 448, 448], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}
+after mutation, the new arch is : {'sample_layer_num': 5, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [480, 480, 480, 480, 480], 'sample_num_attention_heads': [12, 12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252, 252]}
+new_arch_latency: 11.11413985490799
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [448, 448, 448, 448], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [416, 416, 416, 416], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}
+new_arch_latency: 8.930574357509613
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [960, 960, 960], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.781136155128479
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 468, 'sample_intermediate_sizes': [832, 832, 832], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [468, 468, 468]}
+new_arch_latency: 10.310553014278412
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.625799000263214
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.625799000263214
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [928, 928, 928, 928], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [480, 480, 480, 480]}
+new_arch_latency: 14.150042831897736
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 468, 'sample_intermediate_sizes': [832, 832, 832], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [468, 468, 468]}
+new_arch_latency: 10.310553014278412
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [832, 832, 832], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.490909218788147
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.625799000263214
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.625799000263214
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [928, 928, 928], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.701093077659607
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896, 896], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [480, 480, 480, 480]}
+new_arch_latency: 14.061872661113739
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.625799000263214
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [928, 928, 928], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.701093077659607
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.625799000263214
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [864, 864, 864], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.553120076656342
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}
+new_arch_latency: 9.229399263858795
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [576, 576, 576, 576], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+new_arch_latency: 9.65738445520401
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}
+new_arch_latency: 9.229399263858795
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+new_arch_latency: 9.443767368793488
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [512, 512, 512], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [252, 252, 252]}
+new_arch_latency: 7.24928081035614
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+new_arch_latency: 9.443767368793488
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+new_arch_latency: 9.443767368793488
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+new_arch_latency: 9.443767368793488
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+new_arch_latency: 9.443767368793488
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [448, 448, 448, 448], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+new_arch_latency: 9.229676425457
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+new_arch_latency: 9.443767368793488
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 276, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [276, 276, 276, 276]}
+new_arch_latency: 9.643405675888062
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 492, 'sample_intermediate_sizes': [864, 864, 864], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [492, 492, 492]}
+new_arch_latency: 10.777890682220459
+old arch: {'sample_layer_num': 4, 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_hidden_size': 288, 'sample_intermediate_sizes': [960, 960, 960, 960], 'sample_qkv_sizes': [288, 288, 288, 288]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 300, 'sample_intermediate_sizes': [960, 960, 960, 960], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [300, 300, 300, 300]}
+new_arch_latency: 11.032022535800934
+old arch: {'sample_layer_num': 4, 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_hidden_size': 288, 'sample_intermediate_sizes': [960, 960, 960, 960], 'sample_qkv_sizes': [288, 288, 288, 288]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 288, 'sample_intermediate_sizes': [960, 960, 960, 960], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [288, 288, 288, 288]}
+new_arch_latency: 10.840879380702972
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 528, 'sample_intermediate_sizes': [288, 288, 288], 'sample_qkv_sizes': [528, 528, 528]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 528, 'sample_intermediate_sizes': [288, 288, 288, 288], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [528, 528, 528, 528]}
+new_arch_latency: 13.196340203285217
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 528, 'sample_intermediate_sizes': [288, 288, 288], 'sample_qkv_sizes': [528, 528, 528]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 516, 'sample_intermediate_sizes': [288, 288, 288], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [516, 516, 516]}
+new_arch_latency: 9.858278930187225
+>>> Starting Evaluation of EE Iteration 2 ...
+05/28/2023 17:44:59 - INFO - __main__ -   device: cpu n_gpu: 0
+05/28/2023 17:44:59 - INFO - __main__ -   task_lis: ['rte']
+05/28/2023 17:44:59 - INFO - __main__ -   data_dir_lis: ['/rte/']
+05/28/2023 17:44:59 - INFO - transformer.tokenization -   loading vocabulary file /n/home00/lbailey/bigger_and_faster/model/SUPER-KD-S1/output/superbert/checkpoints/superbert_epoch_4_lr_0.0001_bsz_12_grad_accu_1_512_gpu_1/epoch_3/vocab.txt
+05/28/2023 17:44:59 - INFO - transformer.modeling_super_kd -   Model config {
+  "attention_probs_dropout_prob": 0.1,
+  "cell": {},
+  "emb_size": 564,
+  "fix_config": {
+    "sample_hidden_size": 564,
+    "sample_intermediate_sizes": [
+      1024,
+      1024,
+      1024,
+      1024,
+      1024
+    ],
+    "sample_layer_num": 5,
+    "sample_num_attention_heads": [
+      12,
+      12,
+      12,
+      12,
+      12
+    ],
+    "sample_qkv_sizes": [
+      528,
+      528,
+      528,
+      528,
+      528
+    ]
+  },
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 564,
+  "initializer_range": 0.02,
+  "intermediate_size": 1024,
+  "layer_norm_eps": 1e-12,
+  "max_position_embeddings": 512,
+  "num_attention_heads": 12,
+  "num_hidden_layers": 5,
+  "pre_trained": "",
+  "qkv_size": 528,
+  "structure": [],
+  "training": "",
+  "type_vocab_size": 2,
+  "vocab_size": 30522
+}
+
+05/28/2023 17:44:59 - INFO - __main__ -   subbert_configs: [{'sample_layer_num': 4, 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_hidden_size': 192, 'sample_intermediate_sizes': [864, 864, 864, 864], 'sample_qkv_sizes': [192, 192, 192, 192]}, {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [416, 416, 416, 416], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}, {'sample_layer_num': 3, 'sample_hidden_size': 528, 'sample_intermediate_sizes': [288, 288, 288], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [528, 528, 528]}, {'sample_layer_num': 3, 'sample_hidden_size': 456, 'sample_intermediate_sizes': [256, 256, 256], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [456, 456, 456]}, {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 456, 'sample_intermediate_sizes': [608, 608, 608], 'sample_qkv_sizes': [456, 456, 456]}, {'sample_layer_num': 4, 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_hidden_size': 384, 'sample_intermediate_sizes': [448, 448, 448, 448], 'sample_qkv_sizes': [384, 384, 384, 384]}, {'sample_layer_num': 4, 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_hidden_size': 324, 'sample_intermediate_sizes': [640, 640, 640, 640], 'sample_qkv_sizes': [324, 324, 324, 324]}, {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 468, 'sample_intermediate_sizes': [768, 768, 768], 'sample_qkv_sizes': [468, 468, 468]}, {'sample_layer_num': 3, 'sample_hidden_size': 492, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [492, 492, 492]}, {'sample_layer_num': 4, 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_hidden_size': 228, 'sample_intermediate_sizes': [704, 704, 704, 704], 'sample_qkv_sizes': [228, 228, 228, 228]}, {'sample_layer_num': 4, 'sample_hidden_size': 228, 'sample_intermediate_sizes': [448, 448, 448, 448], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [228, 228, 228, 228]}, {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 384, 'sample_intermediate_sizes': [608, 608, 608], 'sample_qkv_sizes': [384, 384, 384]}, {'sample_layer_num': 3, 'sample_hidden_size': 468, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [468, 468, 468]}, {'sample_layer_num': 4, 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_hidden_size': 288, 'sample_intermediate_sizes': [704, 704, 704, 704], 'sample_qkv_sizes': [288, 288, 288, 288]}, {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [416, 416, 416, 416], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}, {'sample_layer_num': 5, 'sample_num_attention_heads': [12, 12, 12, 12, 12], 'sample_hidden_size': 168, 'sample_intermediate_sizes': [576, 576, 576, 576, 576], 'sample_qkv_sizes': [168, 168, 168, 168, 168]}, {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 336, 'sample_intermediate_sizes': [800, 800, 800], 'sample_qkv_sizes': [336, 336, 336]}, {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [864, 864, 864], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}, {'sample_layer_num': 5, 'sample_num_attention_heads': [12, 12, 12, 12, 12], 'sample_hidden_size': 156, 'sample_intermediate_sizes': [768, 768, 768, 768, 768], 'sample_qkv_sizes': [156, 156, 156, 156, 156]}, {'sample_layer_num': 4, 'sample_hidden_size': 276, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [276, 276, 276, 276]}, {'sample_layer_num': 3, 'sample_hidden_size': 492, 'sample_intermediate_sizes': [864, 864, 864], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [492, 492, 492]}, {'sample_layer_num': 4, 'sample_hidden_size': 288, 'sample_intermediate_sizes': [960, 960, 960, 960], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [288, 288, 288, 288]}, {'sample_layer_num': 4, 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_hidden_size': 240, 'sample_intermediate_sizes': [832, 832, 832, 832], 'sample_qkv_sizes': [240, 240, 240, 240]}, {'sample_layer_num': 3, 'sample_hidden_size': 516, 'sample_intermediate_sizes': [288, 288, 288], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [516, 516, 516]}, {'sample_layer_num': 5, 'sample_num_attention_heads': [12, 12, 12, 12, 12], 'sample_hidden_size': 252, 'sample_intermediate_sizes': [416, 416, 416, 416, 416], 'sample_qkv_sizes': [252, 252, 252, 252, 252]}]
+05/28/2023 17:44:59 - INFO - __main__ -   The current subbert_config is: {'sample_layer_num': 4, 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_hidden_size': 192, 'sample_intermediate_sizes': [864, 864, 864, 864], 'sample_qkv_sizes': [192, 192, 192, 192]}
+05/28/2023 17:44:59 - INFO - __main__ -   The args: Namespace(arches_file='../cands/1st_generation_kd_ptq_10.evo.cands', cache_dir='', data_dir='/rte/', data_url='', do_lower_case=True, doc_stride=128, eval_batch_size=32, eval_step=10, gradient_accumulation_steps=1, init_method='', learning_rate=2e-05, max_answer_length=30, max_query_length=64, max_seq_length=128, model='/n/home00/lbailey/bigger_and_faster/model/SUPER-KD-S1/output/superbert/checkpoints/superbert_epoch_4_lr_0.0001_bsz_12_grad_accu_1_512_gpu_1/epoch_3', n_best_size=20, no_cuda=False, null_score_diff_threshold=0.0, num_train_epochs=1.0, output_dir='../output/kd_ptq_10/', predict_file='SQuAD2.0/dev-v2.0.json', save_model_flag=0, seed='42', super_model='MLM', task_name='rte', train_batch_size=32, train_file='SQuAD2.0/train-v2.0.json', train_url='', verbose_logging=False, version_2_with_negative=0, warmup_proportion=0.1, weight_decay=0.0001)
+Traceback (most recent call last):
+  File "../superbert_run_en_classifier_ptq.py", line 2231, in <module>
+    main()
+  File "../superbert_run_en_classifier_ptq.py", line 1919, in main
+    train_examples = processor.get_train_examples(args.data_dir)
+  File "../superbert_run_en_classifier_ptq.py", line 461, in get_train_examples
+    self._read_tsv(os.path.join(data_dir, "train.tsv")), "train")
+  File "../superbert_run_en_classifier_ptq.py", line 182, in _read_tsv
+    with open(input_file, "r", encoding="utf-8") as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/rte/train.tsv'
+>>> Starting Search of EE Iteration 2 ...
+Namespace(arch_perfs_file='../output/kd_ptq_10/subbert.results', candidate_file='/n/home00/lbailey/bigger_and_faster/cands/kd_ptq_10.cands', ckpt_path='/n/home00/lbailey/bigger_and_faster/conf_datasets/lat_predictor_quant.pt', feature_dim=4, feature_norm=[564, 5, 1024, 564], gen_size=10, head_num_space=[1, 12], hidden_dim=2000, hidden_layer_num=3, hidden_size_space=[144, 528], intermediate_size_space=[128, 1024], lat_norm=200, latency_constraint=10.0, layer_num_space=[1, 5], method='Evolved', model='KD', output_file='../cands/1st_generation_kd_ptq_10.evo.cands', qkv_size_space=[144, 528])
+Size of candidates: 999
+Size of fast candidates: 98
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 324, 'sample_intermediate_sizes': [576, 576, 576, 576], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [324, 324, 324, 324]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 336, 'sample_intermediate_sizes': [608, 608, 608, 608], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [336, 336, 336, 336]}
+new_arch_latency: 10.774452984333038
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 456, 'sample_intermediate_sizes': [192, 192, 192], 'sample_qkv_sizes': [456, 456, 456]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 444, 'sample_intermediate_sizes': [192, 192, 192], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [444, 444, 444]}
+new_arch_latency: 8.631326258182526
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 456, 'sample_intermediate_sizes': [192, 192, 192], 'sample_qkv_sizes': [456, 456, 456]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 456, 'sample_intermediate_sizes': [224, 224, 224], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [456, 456, 456]}
+new_arch_latency: 8.79606306552887
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+new_arch_latency: 9.443767368793488
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 276, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [276, 276, 276, 276]}
+new_arch_latency: 9.643405675888062
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 456, 'sample_intermediate_sizes': [192, 192, 192], 'sample_qkv_sizes': [456, 456, 456]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 468, 'sample_intermediate_sizes': [256, 256, 256], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [468, 468, 468]}
+new_arch_latency: 8.991745114326477
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [960, 960, 960], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [928, 928, 928], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.701093077659607
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [960, 960, 960], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [960, 960, 960], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.781136155128479
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [960, 960, 960], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 2, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [960, 960], 'sample_num_attention_heads': [12, 12], 'sample_qkv_sizes': [480, 480]}
+new_arch_latency: 7.648393511772156
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [960, 960, 960], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [960, 960, 960], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.781136155128479
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [960, 960, 960], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 492, 'sample_intermediate_sizes': [960, 960, 960, 960], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [492, 492, 492, 492]}
+new_arch_latency: 14.526070654392242
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [960, 960, 960], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [992, 992, 992], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.870671272277832
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [864, 864, 864], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.553120076656342
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.625799000263214
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 468, 'sample_intermediate_sizes': [832, 832, 832], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [468, 468, 468]}
+new_arch_latency: 10.310553014278412
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.625799000263214
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 492, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [492, 492, 492]}
+new_arch_latency: 10.853561758995056
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 468, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [468, 468, 468]}
+new_arch_latency: 10.428421199321747
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 468, 'sample_intermediate_sizes': [864, 864, 864], 'sample_qkv_sizes': [468, 468, 468]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.625799000263214
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 468, 'sample_intermediate_sizes': [864, 864, 864], 'sample_qkv_sizes': [468, 468, 468]}
+after mutation, the new arch is : {'sample_layer_num': 2, 'sample_hidden_size': 468, 'sample_intermediate_sizes': [800, 800], 'sample_num_attention_heads': [12, 12], 'sample_qkv_sizes': [468, 468]}
+new_arch_latency: 7.229633629322052
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 468, 'sample_intermediate_sizes': [864, 864, 864], 'sample_qkv_sizes': [468, 468, 468]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 468, 'sample_intermediate_sizes': [864, 864, 864], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [468, 468, 468]}
+new_arch_latency: 10.365137457847595
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 468, 'sample_intermediate_sizes': [864, 864, 864], 'sample_qkv_sizes': [468, 468, 468]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 468, 'sample_intermediate_sizes': [864, 864, 864], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [468, 468, 468]}
+new_arch_latency: 10.365137457847595
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 468, 'sample_intermediate_sizes': [864, 864, 864], 'sample_qkv_sizes': [468, 468, 468]}
+after mutation, the new arch is : {'sample_layer_num': 2, 'sample_hidden_size': 468, 'sample_intermediate_sizes': [864, 864], 'sample_num_attention_heads': [12, 12], 'sample_qkv_sizes': [468, 468]}
+new_arch_latency: 7.335959374904633
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 468, 'sample_intermediate_sizes': [864, 864, 864], 'sample_qkv_sizes': [468, 468, 468]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 456, 'sample_intermediate_sizes': [864, 864, 864], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [456, 456, 456]}
+new_arch_latency: 10.203070938587189
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [576, 576, 576, 576], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}
+new_arch_latency: 9.433680772781372
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [448, 448, 448, 448], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [384, 384, 384, 384], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}
+new_arch_latency: 8.843067288398743
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [448, 448, 448, 448], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [448, 448, 448, 448], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+new_arch_latency: 8.795039355754852
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [448, 448, 448, 448], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [448, 448, 448, 448], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+new_arch_latency: 8.795039355754852
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [448, 448, 448, 448], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [416, 416, 416, 416], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}
+new_arch_latency: 8.930574357509613
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+new_arch_latency: 9.443767368793488
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [448, 448, 448, 448], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+new_arch_latency: 9.229676425457
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 276, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [276, 276, 276, 276]}
+new_arch_latency: 9.643405675888062
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [448, 448, 448, 448], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+new_arch_latency: 9.229676425457
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [544, 544, 544, 544], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}
+new_arch_latency: 9.33879017829895
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 528, 'sample_intermediate_sizes': [288, 288, 288], 'sample_qkv_sizes': [528, 528, 528]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 528, 'sample_intermediate_sizes': [288, 288, 288], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [528, 528, 528]}
+new_arch_latency: 10.065053403377533
+>>> Starting Evaluation of EE Iteration 3 ...
+05/28/2023 17:45:03 - INFO - __main__ -   device: cpu n_gpu: 0
+05/28/2023 17:45:03 - INFO - __main__ -   task_lis: ['rte']
+05/28/2023 17:45:03 - INFO - __main__ -   data_dir_lis: ['/rte/']
+05/28/2023 17:45:03 - INFO - transformer.tokenization -   loading vocabulary file /n/home00/lbailey/bigger_and_faster/model/SUPER-KD-S1/output/superbert/checkpoints/superbert_epoch_4_lr_0.0001_bsz_12_grad_accu_1_512_gpu_1/epoch_3/vocab.txt
+05/28/2023 17:45:03 - INFO - transformer.modeling_super_kd -   Model config {
+  "attention_probs_dropout_prob": 0.1,
+  "cell": {},
+  "emb_size": 564,
+  "fix_config": {
+    "sample_hidden_size": 564,
+    "sample_intermediate_sizes": [
+      1024,
+      1024,
+      1024,
+      1024,
+      1024
+    ],
+    "sample_layer_num": 5,
+    "sample_num_attention_heads": [
+      12,
+      12,
+      12,
+      12,
+      12
+    ],
+    "sample_qkv_sizes": [
+      528,
+      528,
+      528,
+      528,
+      528
+    ]
+  },
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 564,
+  "initializer_range": 0.02,
+  "intermediate_size": 1024,
+  "layer_norm_eps": 1e-12,
+  "max_position_embeddings": 512,
+  "num_attention_heads": 12,
+  "num_hidden_layers": 5,
+  "pre_trained": "",
+  "qkv_size": 528,
+  "structure": [],
+  "training": "",
+  "type_vocab_size": 2,
+  "vocab_size": 30522
+}
+
+05/28/2023 17:45:03 - INFO - __main__ -   subbert_configs: [{'sample_layer_num': 4, 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_hidden_size': 288, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_qkv_sizes': [288, 288, 288, 288]}, {'sample_layer_num': 4, 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_hidden_size': 300, 'sample_intermediate_sizes': [640, 640, 640, 640], 'sample_qkv_sizes': [300, 300, 300, 300]}, {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 396, 'sample_intermediate_sizes': [480, 480, 480], 'sample_qkv_sizes': [396, 396, 396]}, {'sample_layer_num': 4, 'sample_hidden_size': 336, 'sample_intermediate_sizes': [608, 608, 608, 608], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [336, 336, 336, 336]}, {'sample_layer_num': 4, 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_hidden_size': 228, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_qkv_sizes': [228, 228, 228, 228]}, {'sample_layer_num': 5, 'sample_num_attention_heads': [12, 12, 12, 12, 12], 'sample_hidden_size': 180, 'sample_intermediate_sizes': [352, 352, 352, 352, 352], 'sample_qkv_sizes': [180, 180, 180, 180, 180]}, {'sample_layer_num': 3, 'sample_hidden_size': 456, 'sample_intermediate_sizes': [224, 224, 224], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [456, 456, 456]}, {'sample_layer_num': 4, 'sample_hidden_size': 276, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [276, 276, 276, 276]}, {'sample_layer_num': 3, 'sample_hidden_size': 468, 'sample_intermediate_sizes': [256, 256, 256], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [468, 468, 468]}, {'sample_layer_num': 5, 'sample_num_attention_heads': [12, 12, 12, 12, 12], 'sample_hidden_size': 252, 'sample_intermediate_sizes': [192, 192, 192, 192, 192], 'sample_qkv_sizes': [252, 252, 252, 252, 252]}, {'sample_layer_num': 4, 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_hidden_size': 288, 'sample_intermediate_sizes': [672, 672, 672, 672], 'sample_qkv_sizes': [288, 288, 288, 288]}, {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [992, 992, 992], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}, {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 396, 'sample_intermediate_sizes': [1024, 1024, 1024], 'sample_qkv_sizes': [396, 396, 396]}, {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [864, 864, 864], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}, {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 492, 'sample_intermediate_sizes': [800, 800, 800], 'sample_qkv_sizes': [492, 492, 492]}, {'sample_layer_num': 3, 'sample_hidden_size': 492, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [492, 492, 492]}, {'sample_layer_num': 3, 'sample_hidden_size': 468, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [468, 468, 468]}, {'sample_layer_num': 3, 'sample_hidden_size': 456, 'sample_intermediate_sizes': [864, 864, 864], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [456, 456, 456]}, {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [576, 576, 576, 576], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}, {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [416, 416, 416, 416], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}, {'sample_layer_num': 5, 'sample_num_attention_heads': [12, 12, 12, 12, 12], 'sample_hidden_size': 180, 'sample_intermediate_sizes': [544, 544, 544, 544, 544], 'sample_qkv_sizes': [180, 180, 180, 180, 180]}, {'sample_layer_num': 4, 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_hidden_size': 156, 'sample_intermediate_sizes': [832, 832, 832, 832], 'sample_qkv_sizes': [156, 156, 156, 156]}, {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [544, 544, 544, 544], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}, {'sample_layer_num': 5, 'sample_num_attention_heads': [12, 12, 12, 12, 12], 'sample_hidden_size': 216, 'sample_intermediate_sizes': [416, 416, 416, 416, 416], 'sample_qkv_sizes': [216, 216, 216, 216, 216]}, {'sample_layer_num': 3, 'sample_hidden_size': 528, 'sample_intermediate_sizes': [288, 288, 288], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [528, 528, 528]}]
+05/28/2023 17:45:03 - INFO - __main__ -   The current subbert_config is: {'sample_layer_num': 4, 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_hidden_size': 288, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_qkv_sizes': [288, 288, 288, 288]}
+05/28/2023 17:45:03 - INFO - __main__ -   The args: Namespace(arches_file='../cands/1st_generation_kd_ptq_10.evo.cands', cache_dir='', data_dir='/rte/', data_url='', do_lower_case=True, doc_stride=128, eval_batch_size=32, eval_step=10, gradient_accumulation_steps=1, init_method='', learning_rate=2e-05, max_answer_length=30, max_query_length=64, max_seq_length=128, model='/n/home00/lbailey/bigger_and_faster/model/SUPER-KD-S1/output/superbert/checkpoints/superbert_epoch_4_lr_0.0001_bsz_12_grad_accu_1_512_gpu_1/epoch_3', n_best_size=20, no_cuda=False, null_score_diff_threshold=0.0, num_train_epochs=1.0, output_dir='../output/kd_ptq_10/', predict_file='SQuAD2.0/dev-v2.0.json', save_model_flag=0, seed='42', super_model='MLM', task_name='rte', train_batch_size=32, train_file='SQuAD2.0/train-v2.0.json', train_url='', verbose_logging=False, version_2_with_negative=0, warmup_proportion=0.1, weight_decay=0.0001)
+Traceback (most recent call last):
+  File "../superbert_run_en_classifier_ptq.py", line 2231, in <module>
+    main()
+  File "../superbert_run_en_classifier_ptq.py", line 1919, in main
+    train_examples = processor.get_train_examples(args.data_dir)
+  File "../superbert_run_en_classifier_ptq.py", line 461, in get_train_examples
+    self._read_tsv(os.path.join(data_dir, "train.tsv")), "train")
+  File "../superbert_run_en_classifier_ptq.py", line 182, in _read_tsv
+    with open(input_file, "r", encoding="utf-8") as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/rte/train.tsv'
+>>> Starting Search of EE Iteration 3 ...
+Namespace(arch_perfs_file='../output/kd_ptq_10/subbert.results', candidate_file='/n/home00/lbailey/bigger_and_faster/cands/kd_ptq_10.cands', ckpt_path='/n/home00/lbailey/bigger_and_faster/conf_datasets/lat_predictor_quant.pt', feature_dim=4, feature_norm=[564, 5, 1024, 564], gen_size=10, head_num_space=[1, 12], hidden_dim=2000, hidden_layer_num=3, hidden_size_space=[144, 528], intermediate_size_space=[128, 1024], lat_norm=200, latency_constraint=10.0, layer_num_space=[1, 5], method='Evolved', model='KD', output_file='../cands/1st_generation_kd_ptq_10.evo.cands', qkv_size_space=[144, 528])
+Size of candidates: 999
+Size of fast candidates: 98
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 396, 'sample_intermediate_sizes': [512, 512, 512], 'sample_qkv_sizes': [396, 396, 396]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 408, 'sample_intermediate_sizes': [512, 512, 512], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [408, 408, 408]}
+new_arch_latency: 8.796945214271545
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 528, 'sample_intermediate_sizes': [288, 288, 288], 'sample_qkv_sizes': [528, 528, 528]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 528, 'sample_intermediate_sizes': [224, 224, 224], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [528, 528, 528]}
+new_arch_latency: 9.901431202888489
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 324, 'sample_intermediate_sizes': [576, 576, 576, 576], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [324, 324, 324, 324]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 324, 'sample_intermediate_sizes': [608, 608, 608, 608], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [324, 324, 324, 324]}
+new_arch_latency: 10.616728663444519
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 324, 'sample_intermediate_sizes': [576, 576, 576, 576], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [324, 324, 324, 324]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 312, 'sample_intermediate_sizes': [544, 544, 544, 544], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [312, 312, 312, 312]}
+new_arch_latency: 10.254265367984772
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}
+new_arch_latency: 9.229399263858795
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [448, 448, 448, 448], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+new_arch_latency: 9.229676425457
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+new_arch_latency: 9.443767368793488
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 5, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264, 264]}
+new_arch_latency: 11.436854302883148
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [448, 448, 448, 448], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}
+new_arch_latency: 9.021583199501038
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [480, 480, 480, 480], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+new_arch_latency: 9.331052005290985
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+new_arch_latency: 9.443767368793488
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}
+new_arch_latency: 9.229399263858795
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 5, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264, 264]}
+new_arch_latency: 11.436854302883148
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}
+new_arch_latency: 9.229399263858795
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 276, 'sample_intermediate_sizes': [480, 480, 480, 480], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [276, 276, 276, 276]}
+new_arch_latency: 9.536032378673553
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+new_arch_latency: 9.443767368793488
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}
+new_arch_latency: 9.229399263858795
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+new_arch_latency: 9.443767368793488
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [264, 264, 264]}
+new_arch_latency: 7.363875210285187
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [448, 448, 448, 448], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+new_arch_latency: 9.229676425457
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [448, 448, 448, 448], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}
+new_arch_latency: 9.021583199501038
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 5, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264, 264]}
+new_arch_latency: 11.436854302883148
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+new_arch_latency: 9.443767368793488
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [264, 264, 264]}
+new_arch_latency: 7.363875210285187
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+new_arch_latency: 9.443767368793488
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+new_arch_latency: 9.443767368793488
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 5, 'sample_hidden_size': 276, 'sample_intermediate_sizes': [512, 512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12, 12], 'sample_qkv_sizes': [276, 276, 276, 276, 276]}
+new_arch_latency: 11.654910445213318
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+new_arch_latency: 9.443767368793488
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+new_arch_latency: 9.443767368793488
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+new_arch_latency: 9.443767368793488
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [448, 448, 448, 448], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+new_arch_latency: 9.229676425457
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [576, 576, 576, 576], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+new_arch_latency: 9.65738445520401
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [448, 448, 448], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [264, 264, 264]}
+new_arch_latency: 7.2220578789711
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}
+new_arch_latency: 9.229399263858795
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 276, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [276, 276, 276, 276]}
+new_arch_latency: 9.643405675888062
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [352, 352, 352, 352], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [352, 352, 352, 352], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}
+new_arch_latency: 8.75501036643982
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [352, 352, 352, 352], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [352, 352, 352, 352], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+new_arch_latency: 8.544054627418518
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [352, 352, 352, 352], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 228, 'sample_intermediate_sizes': [352, 352, 352], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [228, 228, 228]}
+new_arch_latency: 6.623627245426178
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [352, 352, 352, 352], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [384, 384, 384, 384], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+new_arch_latency: 8.626770973205566
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [352, 352, 352, 352], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [352, 352, 352, 352], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+new_arch_latency: 8.544054627418518
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [352, 352, 352, 352], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [352, 352, 352, 352], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+new_arch_latency: 8.544054627418518
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [352, 352, 352, 352], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 228, 'sample_intermediate_sizes': [320, 320, 320, 320], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [228, 228, 228, 228]}
+new_arch_latency: 8.274456858634949
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [352, 352, 352, 352], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+after mutation, the new arch is : {'sample_layer_num': 5, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [320, 320, 320, 320, 320], 'sample_num_attention_heads': [12, 12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252, 252]}
+new_arch_latency: 10.635562241077423
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252]}
+new_arch_latency: 9.229399263858795
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 5, 'sample_hidden_size': 276, 'sample_intermediate_sizes': [544, 544, 544, 544, 544], 'sample_num_attention_heads': [12, 12, 12, 12, 12], 'sample_qkv_sizes': [276, 276, 276, 276, 276]}
+new_arch_latency: 11.765481531620026
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 5, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264, 264]}
+new_arch_latency: 11.436854302883148
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [264, 264, 264]}
+new_arch_latency: 7.363875210285187
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 264, 'sample_intermediate_sizes': [512, 512, 512, 512], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [264, 264, 264, 264]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 276, 'sample_intermediate_sizes': [544, 544, 544, 544], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [276, 276, 276, 276]}
+new_arch_latency: 9.740495681762695
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 384, 'sample_intermediate_sizes': [704, 704, 704], 'sample_qkv_sizes': [384, 384, 384]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 396, 'sample_intermediate_sizes': [704, 704, 704], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [396, 396, 396]}
+new_arch_latency: 9.175975620746613
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [960, 960, 960], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [960, 960, 960], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.781136155128479
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [960, 960, 960], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 2, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [992, 992], 'sample_num_attention_heads': [12, 12], 'sample_qkv_sizes': [480, 480]}
+new_arch_latency: 7.702949643135071
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [960, 960, 960], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [928, 928, 928], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.701093077659607
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [960, 960, 960], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.625799000263214
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [960, 960, 960], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [960, 960, 960], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.781136155128479
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [960, 960, 960], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [1024, 1024, 1024], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.967724025249481
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 432, 'sample_intermediate_sizes': [576, 576, 576], 'sample_qkv_sizes': [432, 432, 432]}
+after mutation, the new arch is : {'sample_layer_num': 4, 'sample_hidden_size': 444, 'sample_intermediate_sizes': [640, 640, 640, 640], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [444, 444, 444, 444]}
+new_arch_latency: 12.330150604248047
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 432, 'sample_intermediate_sizes': [576, 576, 576], 'sample_qkv_sizes': [432, 432, 432]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 432, 'sample_intermediate_sizes': [544, 544, 544], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [432, 432, 432]}
+new_arch_latency: 9.163425862789154
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 468, 'sample_intermediate_sizes': [864, 864, 864], 'sample_qkv_sizes': [468, 468, 468]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 468, 'sample_intermediate_sizes': [896, 896, 896], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [468, 468, 468]}
+new_arch_latency: 10.428421199321747
+old arch: {'sample_layer_num': 4, 'sample_hidden_size': 240, 'sample_intermediate_sizes': [352, 352, 352, 352], 'sample_num_attention_heads': [12, 12, 12, 12], 'sample_qkv_sizes': [240, 240, 240, 240]}
+after mutation, the new arch is : {'sample_layer_num': 5, 'sample_hidden_size': 252, 'sample_intermediate_sizes': [320, 320, 320, 320, 320], 'sample_num_attention_heads': [12, 12, 12, 12, 12], 'sample_qkv_sizes': [252, 252, 252, 252, 252]}
+new_arch_latency: 10.635562241077423
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 468, 'sample_intermediate_sizes': [864, 864, 864], 'sample_qkv_sizes': [468, 468, 468]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 468, 'sample_intermediate_sizes': [864, 864, 864], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [468, 468, 468]}
+new_arch_latency: 10.365137457847595
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 468, 'sample_intermediate_sizes': [864, 864, 864], 'sample_qkv_sizes': [468, 468, 468]}
+after mutation, the new arch is : {'sample_layer_num': 2, 'sample_hidden_size': 468, 'sample_intermediate_sizes': [864, 864], 'sample_num_attention_heads': [12, 12], 'sample_qkv_sizes': [468, 468]}
+new_arch_latency: 7.335959374904633
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 468, 'sample_intermediate_sizes': [864, 864, 864], 'sample_qkv_sizes': [468, 468, 468]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 456, 'sample_intermediate_sizes': [800, 800, 800], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [456, 456, 456]}
+new_arch_latency: 10.08303165435791
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 468, 'sample_intermediate_sizes': [864, 864, 864], 'sample_qkv_sizes': [468, 468, 468]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 468, 'sample_intermediate_sizes': [928, 928, 928], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [468, 468, 468]}
+new_arch_latency: 10.503265261650085
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 468, 'sample_intermediate_sizes': [864, 864, 864], 'sample_qkv_sizes': [468, 468, 468]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [800, 800, 800], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+new_arch_latency: 10.422846674919128
+old arch: {'sample_layer_num': 3, 'sample_hidden_size': 480, 'sample_intermediate_sizes': [960, 960, 960], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [480, 480, 480]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 492, 'sample_intermediate_sizes': [928, 928, 928], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [492, 492, 492]}
+new_arch_latency: 10.931262373924255
+old arch: {'sample_layer_num': 3, 'sample_num_attention_heads': [12, 12, 12], 'sample_hidden_size': 432, 'sample_intermediate_sizes': [576, 576, 576], 'sample_qkv_sizes': [432, 432, 432]}
+after mutation, the new arch is : {'sample_layer_num': 3, 'sample_hidden_size': 432, 'sample_intermediate_sizes': [640, 640, 640], 'sample_num_attention_heads': [12, 12, 12], 'sample_qkv_sizes': [432, 432, 432]}
+new_arch_latency: 9.437412023544312
