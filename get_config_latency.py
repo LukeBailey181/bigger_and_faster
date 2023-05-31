@@ -71,21 +71,29 @@ if __name__ == "__main__":
     }
 
     # Transfer input config to 
+    arches = []
     with open(args.arch_path, 'r') as f:
-        arch = json.load(f)
+        for line in f:
+            line = line.strip()
 
-    for arch_param, config_param in ARCH_TO_CONFIG_PARAMS.items():
+            if not line:
+                continue
 
-        if isinstance(arch[arch_param], list):
-            config_dict[config_param] = arch[arch_param][0]
-        else:
-            config_dict[config_param] = arch[arch_param]
+            arches.append(json.loads(line))
 
-    bert_config = transformers.BertConfig.from_dict(config_dict)
-    model = transformers.BertModel(config=bert_config)
+    for arch in arches:
+        for arch_param, config_param in ARCH_TO_CONFIG_PARAMS.items():
 
-    if args.data_type == "ptq":
-        arch_cpu_time(model, arch, args, quant=True)
-    elif args.data_type == "fp":
-        arch_cpu_time(model, arch, args, quant=False)
+            if isinstance(arch[arch_param], list):
+                config_dict[config_param] = arch[arch_param][0]
+            else:
+                config_dict[config_param] = arch[arch_param]
+
+        bert_config = transformers.BertConfig.from_dict(config_dict)
+        model = transformers.BertModel(config=bert_config)
+
+        if args.data_type == "ptq":
+            arch_cpu_time(model, arch, args, quant=True)
+        elif args.data_type == "fp":
+            arch_cpu_time(model, arch, args, quant=False)
 

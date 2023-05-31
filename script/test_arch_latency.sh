@@ -1,4 +1,4 @@
-ARCH_PATH=../arch_files/test.json
+ARCH_PATH=../arch_files/test.txt
 INFER_CNT=5     # Number of times model runs inference and averages over
 DATA_TYPE=ptq    # One of fp and ptq
 

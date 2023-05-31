@@ -24,7 +24,7 @@ def text_padding(max_seq_length, device, batch_size):
     input_segments = torch.tensor([input_segments]*batch_size, dtype=torch.long).to(device)
     return input_ids, input_masks, input_segments
 
-def arch_cpu_time(model, arch, args, save_dir, quant=False):
+def arch_cpu_time(model, arch, args, save_dir=None, quant=False, device="cpu"):
 
     master_start = time.time()
 
@@ -61,13 +61,15 @@ def arch_cpu_time(model, arch, args, save_dir, quant=False):
         else:
             aver_time += sep / (args.infer_cnt - 1)
 
-    print('{}\t{}'.format(arch, aver_time))
-    with open(save_dir + 'lat.tmp', 'a') as f:
-        f.write(f'{arch}\t{aver_time}\n')
+    print(arch)
+    if save_dir is not None:
+        with open(save_dir + 'lat.tmp', 'a') as f:
+            f.write(f'{arch}\t{aver_time}\n')
 
     master_end = time.time()
 
-    print(master_end - master_start)
+    print(f"Average time: {aver_time}")
+    print("")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
