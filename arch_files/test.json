@@ -1,0 +1,1 @@
+{"sample_layer_num": 5, "sample_hidden_size": 528, "sample_intermediate_sizes": [896, 896, 896, 896, 896], "sample_num_attention_heads": [12, 12, 12, 12, 12], "sample_qkv_sizes": [528, 528, 528, 528, 528]}
